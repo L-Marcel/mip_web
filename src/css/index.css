@@ -123,3 +123,11 @@ textarea {
  margin-top: 23px;
  margin-right: 3px;
 }
+
+li {
+ display: flex;
+}
+
+li button {
+ margin-left: 5px;
+}

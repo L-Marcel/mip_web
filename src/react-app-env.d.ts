@@ -2,7 +2,6 @@
 
 declare interface ProductModalProps {
   show: boolean,
-  edit: boolean,
   defaultProduct: Product,
   onFinish?: (product: Product) => void,
   onClose?: () => void,
@@ -24,7 +23,6 @@ declare type Item = {
  id?: number,
  name: string,
  description?: string,
- tag: string,
  price: number,
  delivery: boolean,
  unit: number,
@@ -36,7 +34,6 @@ declare type Service = {
   id?: number,
   name: string,
   description?: string,
-  tag: string,
   price: number,
 }
 

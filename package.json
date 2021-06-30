@@ -11,6 +11,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
+    "axios": "^0.21.1",
     "firebase": "^8.6.8",
     "leaflet": "^1.7.1",
     "next": "^11.0.0",

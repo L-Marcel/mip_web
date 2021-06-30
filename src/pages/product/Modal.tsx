@@ -7,7 +7,6 @@ export default function ProductModal(props: ProductModalProps) {
   job: -1,
   delivery: false,
   name: "",
-  tag: "",
   type: "Item",
   price: 0,
   unit: 1,
@@ -37,7 +36,7 @@ export default function ProductModal(props: ProductModalProps) {
     <div>
      <div className="modal">
       <div className="modal-header">
-       <h2>Novo produto</h2>
+       <h2>{product.id? "Produto existente":"Novo produto"}</h2>
        <button onClick={props.onClose}>
         <FaTimes/>
        </button>
@@ -64,15 +63,6 @@ export default function ProductModal(props: ProductModalProps) {
         </label>
        </div>
        <div className="form-group">
-        <label>
-         Tags<br/>
-         <p>Separadas por vírgula</p>
-         <input 
-          type="text" name="tag" 
-          placeholder="Ex: Aniversário, comida, festa..."
-          value={product.tag} onChange={changeProduct}
-         />
-        </label>
         <label>
          Valor<br/>
          <p>Apenas em R$</p>
@@ -103,7 +93,12 @@ export default function ProductModal(props: ProductModalProps) {
        </label>
       </form>
      </div>
-     <button type="submit" onClick={() => props.onFinish? props.onFinish(product):null}>Salvar</button>
+     <button type="submit" onClick={() => {
+      if(props.onFinish && props.onClose){
+       props.onFinish(product)
+       props.onClose();
+      }
+     }}>Salvar</button>
     </div>
    </div>
   );
