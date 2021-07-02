@@ -37,10 +37,8 @@ export default function UserModal(props: UserModalProps) {
                         <form onSubmit={(e) => e.preventDefault()}>
                         <div className="form-group">
                                 <label>
-                                    Id<br />
+                                    {user.id ? "Id"  : ""}<br />
                                     <h2>{user.id}</h2>
-                                        
-                                    
                                 </label>
                             </div>
                             <div className="form-group">
