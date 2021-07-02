@@ -42,7 +42,6 @@ export default function UserListPage() {
     function handleShowModal() {
         setModalProps({
             defaultUser: {
-                id: 0,
                 name: "",
                 email: "",
                 password: "",
@@ -67,7 +66,7 @@ export default function UserListPage() {
                 onFinish={async (u) => {
                     //Se tiver o ID, quer dizer que é para alterar...
 
-                    if (u.id === 0) {
+                    if (u.id === undefined) {
                         await connection.post('/users/create', u).then(() => { }).catch(() => { });
                     } else {
                         await connection.post('/users/update', u).then(() => { }).catch(() => { });

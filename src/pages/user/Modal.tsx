@@ -7,7 +7,6 @@ export default function UserModal(props: UserModalProps) {
         email: "",
         password: "",
         phone: "",
-
     });
 
     useEffect(() => {
