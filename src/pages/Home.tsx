@@ -10,7 +10,7 @@ export default function HomePage(){
    <h1>MIP</h1>
    <ul>
     <li><Link to="/products">Produtos</Link></li>
-    <li><Link to="/user">Usuários</Link></li>
+    <li><Link to="/users">Usuários</Link></li>
    </ul>
    <h5>{user?.email}</h5>
    <h5>{user?.name}</h5>

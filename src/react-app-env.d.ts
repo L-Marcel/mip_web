@@ -6,6 +6,12 @@ declare interface ProductModalProps {
   onFinish?: (product: Product) => void,
   onClose?: () => void,
 }
+declare interface UserModalProps {
+  show: boolean,
+  defaultUser: User,
+  onFinish?: (user: User) => void,
+  onClose?: () => void,
+}
 
 declare type User = {
  id?: number,
