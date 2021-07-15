@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import Router from './Router';
 import { AppProvider } from './context/AppContext';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './css/custom-bootstrap.css';
 import './css/index.css';
 
 ReactDOM.render(

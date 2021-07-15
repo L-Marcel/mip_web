@@ -20,9 +20,6 @@ export default function UserModal(props: UserModalProps) {
         });
     };
 
-
-
-
     if (props.show) {
         return (
             <div className="background-modal">
@@ -35,12 +32,6 @@ export default function UserModal(props: UserModalProps) {
                             </button>
                         </div>
                         <form onSubmit={(e) => e.preventDefault()}>
-                        <div className="form-group">
-                                <label>
-                                    {user.id ? "Id"  : ""}<br />
-                                    <h2>{user.id}</h2>
-                                </label>
-                            </div>
                             <div className="form-group">
                                 <label>
                                     Nome<br />
@@ -53,7 +44,7 @@ export default function UserModal(props: UserModalProps) {
                             <div className="form-group">
                                 <label>
                                     Email<br />
-                                   
+
                                     <input
                                         type="text" name="email"
                                         value={user.email} onChange={changeUser}
@@ -63,7 +54,7 @@ export default function UserModal(props: UserModalProps) {
                             <div className="form-group">
                                 <label>
                                     Telefone<br />
-                                    
+
                                     <input
                                         type="text" name="phone"
                                         value={user.phone} onChange={changeUser}

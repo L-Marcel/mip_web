@@ -4,12 +4,7 @@ import { createContext } from 'use-context-selector';
 export const AppContext = createContext({} as AppContextType);
 
 export function AppProvider(props: { children: any }) {
- const [user, setUser] = useState<User>({
-  id: 1,
-  name: "Irineu",
-  email: "irineu@gmail.com",
-  phone: "000000000",
- });
+ const [user, setUser] = useState<User>();
 
  const _setUser = useCallback((user: User) => {
   setUser(user);

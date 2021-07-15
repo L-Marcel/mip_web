@@ -14,6 +14,7 @@ export default function UserListPage() {
             phone: "",
         }
     });
+
     useEffect(() => {
         handleUpdateList();
     }, []);
@@ -25,6 +26,7 @@ export default function UserListPage() {
             })
             .catch(() => { });
     };
+
     async function callEditModal(u: User) {
         setModalProps({
             defaultUser: u,
@@ -39,6 +41,7 @@ export default function UserListPage() {
             })
             .catch(() => { });
     };
+
     function handleShowModal() {
         setModalProps({
             defaultUser: {
@@ -50,6 +53,7 @@ export default function UserListPage() {
             show: true,
         });
     };
+    
     function handleHideModal() {
         setModalProps({
             ...modalProps,
@@ -67,9 +71,9 @@ export default function UserListPage() {
                     //Se tiver o ID, quer dizer que é para alterar...
 
                     if (u.id === undefined) {
-                        await connection.post('/users/create', u).then(() => { }).catch(() => { });
+                        await connection.post('/users/create', u).then(() => {}).catch(() => { });
                     } else {
-                        await connection.post('/users/update', u).then(() => { }).catch(() => { });
+                        await connection.post('/users/update', u).then(() => {}).catch(() => { });
                     }
                     handleUpdateList();
                 }}
