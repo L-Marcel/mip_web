@@ -1,15 +1,16 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useUser } from '../hooks/useUser';
 import { Container, Row, Col, Form, Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 
-export default function (props: UserModalProps) {
+export default function RegisterPage(props: UserModalProps) {
   const [user, setUser] = useState<User>({
     name: "",
     email: "",
     password: "",
     phone: "",
   });
+
   useEffect(() => {
     setUser(props.defaultUser);
   }, [props.defaultUser]);
@@ -20,7 +21,6 @@ export default function (props: UserModalProps) {
       [e.currentTarget.name]: e.target.value
     });
   };
-
 
   return (
     <Container fluid className="page center">
@@ -33,35 +33,43 @@ export default function (props: UserModalProps) {
           <Row>
             <Form>
 
-              <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Group className="mb-3" controlId="name">
                 <Form.Label>Nome</Form.Label>
-                <Form.Control type="nome"   onChange={changeUser} placeholder="Maria Clara Fernandes" />
+                <Form.Control type="nome"   onChange={changeUser} placeholder="Digite seu nome" />
               </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Group className="mb-3" controlId="phone">
                 <Form.Label>Telefone</Form.Label>
-                <Form.Control type="phone"  onChange={changeUser} placeholder="DDDNNNNNNNNN" />
+                <Form.Control type="phone"  onChange={changeUser} placeholder="Digite seu telefone" />
               </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Email</Form.Label>
-                <Form.Control type="email"  onChange={changeUser} placeholder="maria@gmail.com" />
+              <Form.Group className="mb-3" controlId="email">
+                <Form.Label>E-mail</Form.Label>
+                <Form.Control type="email"  onChange={changeUser} placeholder="Digite seu e-mail" />
               </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Group className="mb-3" controlId="password">
                 <Form.Label>Senha</Form.Label>
-                <Form.Control type="password"  onChange={changeUser} placeholder="Senha.873" />
+                <Form.Control type="password"  onChange={changeUser} placeholder="Digite sua senha" />
                 <Form.Text className="text-muted">
                   Atenção! Não compartilhe sua senha!
                 </Form.Text>
               </Form.Group>
 
-              <Button variant="dark" type="submit" onClick={() => {
-                if (props.onFinish && props.onClose) {
-                  props.onFinish(user)
-                  props.onClose();
-                }
-              }}>Cadastrar</Button>
+              <ButtonToolbar>
+                <ButtonGroup className="me-2">
+                  <Button variant="dark"><Link to="/login">Voltar</Link></Button>
+                </ButtonGroup>
+                <ButtonGroup>
+                  <Button variant="danger" type="submit" onClick={() => {
+                  if (props.onFinish && props.onClose) {
+                    props.onFinish(user)
+                    props.onClose();
+                  }
+                }}>Cadastrar</Button>
+                </ButtonGroup>
+              </ButtonToolbar>
+              
             </Form>
           </Row>
         </Col>
