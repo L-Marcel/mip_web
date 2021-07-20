@@ -17,9 +17,7 @@ export default function LoginPage() {
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>E-mail</Form.Label>
                 <Form.Control type="email" placeholder="Digite seu e-mail" />
-                
               </Form.Group>
-
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Senha</Form.Label>
                 <Form.Control type="password" placeholder="Digite sua senha" />
@@ -32,16 +30,21 @@ export default function LoginPage() {
               </Form.Group>
               <ButtonToolbar>
                 <ButtonGroup className="me-2">
-                  <Button variant="danger">Entrar</Button>
+                  <Button variant="danger"><a href="http://localhost:3000/home">Entrar</a></Button>
                 </ButtonGroup>
                 <ButtonGroup>
-                  <Button variant="dark">Cadastrar</Button>
+                  <Button variant="dark"><a href="http://localhost:3000/register">Cadastrar</a></Button>
                 </ButtonGroup>
               </ButtonToolbar>
             </Form>
           </Row>
         </Col>
       </Row>
+
     </Container>
+
+
+
+
   );
 };

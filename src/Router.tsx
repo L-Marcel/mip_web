@@ -5,14 +5,15 @@ import HomePage from './pages/Home';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import ProductListPage from './pages/product/List';
+import UserListPage from './pages/user/List';
 
 export default function AppRouter() {
-  const [isAuth, setIsAuth] = useState<boolean>(false);
+  const [isAuth, setIsAuth] = useState<boolean>(true);//mudei só pra mexer
   const { user } = useUser();
 
   useEffect(() => {
     if (user?.id === undefined) {
-      setIsAuth(false);
+      setIsAuth(true); // mudei só pra mexer
     } else {
       setIsAuth(true);
     };

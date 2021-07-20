@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Menu from '../../components/Nav';
 import connection from '../../services/connection';
 import ProductModal from './Modal';
 
@@ -68,7 +69,8 @@ export default function ProductListPage() {
 
  return (
   <div>
-   <Link to="/">Voltar</Link><br/>
+    <Menu/>
+  
    <ProductModal
     {...modalProps}
     onClose={handleHideModal}
@@ -83,7 +85,7 @@ export default function ProductListPage() {
      handleUpdateList();
     }}
    />
-   <button onClick={handleShowModal}>Adicionar</button>
+   <button onClick={handleShowModal}>Adicionar novo produto</button>
    <ul>
     {
      products.map((p, i) => {

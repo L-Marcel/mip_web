@@ -1,165 +1,175 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
 * {
- font-family: 'Roboto', sans-serif;
- margin: 0;
- padding: 0;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 /* ------------- ROOT ------------- */
 
 #root {
- min-height: 100vh;
- overflow-x: hidden;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 /* ------------- BASE ------------- */
 
 body {
- width: 100vw;
- height: auto;
+    width: 100vw;
+    height: auto;
 }
 
 form {
- display: flex;
- flex-direction: column;
- padding: 10px;
- width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 100%;
 }
 
 textarea {
- resize: none;
- width: 80%;
- height: 150px;
+    resize: none;
+    width: 80%;
+    height: 150px;
 }
 
 p {
- margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 /* ------------- UTIL ------------- */
 
 .page {
- min-height: 100vh;
- max-width: 100vw;
+    min-height: 100vh;
+    max-width: 100vw;
+}
+
+.page a {
+    text-decoration: none;
+    color: white;
 }
 
 .center {
- display: flex;
- flex-direction: row;
- justify-content: center;
- align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
 }
 
 .danger {
- color: #dc3545;
+    color: #dc3545;
 }
 
 /* ------------- MODAL ------------- */
 
 .background-modal {
- display: flex;
- justify-content: center;
- position: absolute;
- width: 100%;
- background-color: rgba(0, 0, 0, 0.219);
- height: 100vh;
- z-index: 5;
- display: flex;
- flex-direction: column;
- align-items: center;
- justify-content: flex-start;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.219);
+    height: 100vh;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
 }
 
-.background-modal > div {
- max-width: 80%;
- min-width: 30%;
- margin: 2rem 2rem 0 2rem;
+.background-modal>div {
+    max-width: 80%;
+    min-width: 30%;
+    margin: 2rem 2rem 0 2rem;
 }
 
-.background-modal > div button[type="submit"] {
- margin-top: 10px;
- width: 120px;
- height: 40px;
- background-color: whitesmoke;
- border: none;
- font-size: 1rem;
- font-weight: 400;
+.background-modal>div button[type="submit"] {
+    margin-top: 10px;
+    width: 120px;
+    height: 40px;
+    background-color: whitesmoke;
+    border: none;
+    font-size: 1rem;
+    font-weight: 400;
 }
 
-.background-modal > div button[type="submit"]:hover {
- background-color: white;
- cursor: pointer;
+.background-modal>div button[type="submit"]:hover {
+    background-color: white;
+    cursor: pointer;
 }
 
 .modal {
- width: 100%;
- z-index: 6;
- background-color: white;
+    width: 100%;
+    z-index: 6;
+    background-color: white;
 }
 
 .modal form label#text {
- margin-bottom: 2px;
+    margin-bottom: 2px;
 }
 
 .modal form label p {
- font-size: 0.65rem;
- color: gray;
+    font-size: 0.65rem;
+    color: gray;
 }
 
 .modal-header {
- display: flex;
- justify-content: space-between;
- border-bottom: solid 2px black;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid 2px black;
 }
 
 .modal-header h2 {
- padding: 10px;
- padding-left: 10px;
- font-size: 1.2rem;
+    padding: 10px;
+    padding-left: 10px;
+    font-size: 1.2rem;
 }
 
 .modal-header button {
- display: flex;
- justify-content: center;
- align-items: center;
- background-color: whitesmoke;
- width: 60px;
- border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: whitesmoke;
+    width: 60px;
+    border: none;
 }
 
 .modal-header button svg {
- color: currentColor;
- padding-top: 2px;
+    color: currentColor;
+    padding-top: 2px;
 }
 
 .modal-header button:hover {
- background-color: rgba(255, 116, 116, 0.911);
- color: white;
- cursor: pointer;
+    background-color: rgba(255, 116, 116, 0.911);
+    color: white;
+    cursor: pointer;
 }
 
 .form-group {
- display: flex;
- flex-wrap: wrap; 
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .form-group label {
- margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .form-group label:first-of-type {
- margin-right: 10px;
+    margin-right: 10px;
 }
 
 .form-group input[type="checkbox"] {
- margin-right: 3px;
+    margin-right: 3px;
 }
-
+.nav p{
+    font-size: 0.9rem;
+}
+.nav h4{
+    margin-left: 2rem;
+}
 li {
- display: flex;
+    display: flex;
 }
 
 li button {
- margin-left: 5px;
+    margin-left: 5px;
 }
