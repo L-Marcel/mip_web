@@ -121,12 +121,7 @@ p {
 .form-group input[type="checkbox"] {
     margin-right: 3px;
 }
-.nav p{
-    font-size: 0.9rem;
-}
-.nav h4{
-    margin-left: 2rem;
-}
+
 li {
     display: flex;
 }
@@ -140,3 +135,17 @@ li button {
 .mb-3.wrap-group > .form-group {
     margin-top: 1rem !important;
 }
+.styleList Button{
+    float: right;
+    margin: 0rem 0.5rem 0rem 0.3rem;
+}
+.styleList Button:last-child{
+    float: right;
+   
+}
+.styleList ul{
+border-bottom: 1px solid rgb(190, 185, 185) ;
+}
+
+
+
