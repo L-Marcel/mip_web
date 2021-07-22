@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Menu from '../../components/Nav';
+import Menu from '../components/Menu';
 import connection from '../../services/connection';
 import ProductModal from './Modal';
-import { Button, ListGroup, Table } from 'react-bootstrap';
+import { Button, ListGroup, Container, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 
 export default function ProductListPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -22,7 +22,6 @@ export default function ProductListPage() {
     handleUpdateList();
   }, []);
 
-  //Atualiza a lista de produtos
   async function handleUpdateList() {
     await connection.get('products')
       .then((res) => {
@@ -70,13 +69,10 @@ export default function ProductListPage() {
   return (
     <div>
       <Menu />
-
       <ProductModal
         {...modalProps}
         onClose={handleHideModal}
         onFinish={async (p) => {
-          //Se tiver o ID, quer dizer que é para alterar...
-
           if (p.id === undefined) {
             await connection.post('/products/create', p).then(() => { }).catch(() => { });
           } else {
@@ -85,33 +81,33 @@ export default function ProductListPage() {
           handleUpdateList();
         }}
       />
-      <div className="styleList">
-        <ul>
+      <Container fluid className="page-with-menu">
+        <ListGroup>
           {
             products.map((p, i) => {
               return (
-                <Table size="sm" >
+                <ListGroup.Item key={`products-${i}`}>
+                  <div>
+                    <td><h5>{p.name} - R$ {p.price.toFixed(2)}</h5></td>
+                  </div>
 
-                  <thead>
-                    <tr key={`products-${i}`}>
-                      <td ><h3>{p.name} - R$ {p.price.toFixed(2)}</h3></td>
-      
-                      <td>
-                        <Button variant="danger" onClick={() => deleteProduct(p)} >Excluir</Button>
-                        <Button variant="secondary" onClick={() => callEditModal(p)} >Editar</Button>
-                      </td>
-                    </tr>
-                  </thead>
-
-                </Table>
-
+                  <ButtonToolbar>
+                    <ButtonGroup className="me-2">
+                      <Button variant="secondary" onClick={() => callEditModal(p)} >Editar</Button>
+                    </ButtonGroup>
+                    <ButtonGroup>
+                      <Button variant="danger" onClick={() => deleteProduct(p)} >Excluir</Button>
+                    </ButtonGroup>
+                  </ButtonToolbar>
+                </ListGroup.Item>
               );
             })
           }
-
-        </ul>
-        <Button onClick={handleShowModal} variant="danger">Adicionar novo produto</Button>
-      </div>
+          <ListGroup.Item key={`products-add`}>
+            <Button onClick={handleShowModal} variant="danger">Adicionar novo produto</Button>
+          </ListGroup.Item>
+        </ListGroup>
+      </Container>
     </div>
   );
 };

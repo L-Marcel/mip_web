@@ -13,6 +13,11 @@ declare interface UserModalProps {
   onClose?: () => void,
 }
 
+declare type Credentials = {
+  email: string,
+  password: string,
+} 
+
 declare type User = {
  id?: number,
  name: string,
@@ -45,5 +50,5 @@ declare type Service = {
 
 declare type AppContextType = {
  user: User | undefined,
- setUser: (user: User) => void,
+ setUser: (user: User | undefined, keep: boolean) => void,
 }

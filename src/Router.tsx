@@ -6,14 +6,15 @@ import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import ProductListPage from './pages/product/List';
 import UserListPage from './pages/user/List';
+import JobsListPage from './pages/jobs/List';
 
 export default function AppRouter() {
-  const [isAuth, setIsAuth] = useState<boolean>(true);//mudei só pra mexer
+  const [isAuth, setIsAuth] = useState<boolean>(false);
   const { user } = useUser();
 
   useEffect(() => {
     if (user?.id === undefined) {
-      setIsAuth(true); // mudei só pra mexer
+      setIsAuth(false);
     } else {
       setIsAuth(true);
     };
@@ -23,16 +24,15 @@ export default function AppRouter() {
     <BrowserRouter>
       {
         isAuth ? <Switch>
-          <Route path="/register" component={RegisterPage} />
-          <Route path="/login" component={LoginPage} />
           <Route path="/products" exact component={ProductListPage} />
+          <Route path="/jobs" exact component={JobsListPage} />
           <Route path="/users" exact component={UserListPage} />
           <Route path="/" component={HomePage} />
-          <Redirect to="/login"/>
+          <Redirect to="/"/>
         </Switch> : <Switch>
           <Route path="/register" component={RegisterPage} />
-          <Route path="/login" component={LoginPage} />
-          <Redirect to="/login"/>
+          <Route path="/" component={LoginPage} />
+          <Redirect to="/"/>
         </Switch>
       }
     </BrowserRouter>

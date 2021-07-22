@@ -60,6 +60,64 @@ p {
     color: #dc3545;
 }
 
+.page-with-menu {
+    padding: 15px;
+}
+
+/* ------------- MENU ------------- */
+
+.menu {
+    background-color: rgb(49, 49, 49);
+    padding: 0;
+    color: white;
+}
+
+.menu #info {
+    background-color: rgb(34, 34, 34);
+}
+
+.menu #info > * {
+    padding: 10px;
+}
+
+.menu h4 {
+    margin-bottom: 0;
+    display: contents;
+}
+
+.menu .nav {
+    background-color: rgb(20, 20, 20);
+    padding-left: calc(var(--bs-gutter-x) * .5);
+}
+
+.menu .nav-pills .nav-link {
+    color: white;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.menu .nav-pills .nav-link.active, .menu .nav-pills .show > .nav-link {
+    background-color: #dc3545;
+    color: black;
+}
+
+.menu .nav-pills .nav-item.no-border-top-left .nav-link {
+    border-top-left-radius: 0;
+}
+
+.menu .nav-pills .nav-item.no-border-top-left:first-of-type .nav-link {
+    border-top-right-radius: 0;
+}
+
+.menu .nav-pills .nav-item:first-of-type .nav-link {
+    border-top-left-radius: 0;
+    background-color: #f74d5f;
+}
+
+.menu .nav-item svg {
+    padding-bottom: 4px;
+}
+
 /* ------------- MODAL ------------- */
 
 .modal {
