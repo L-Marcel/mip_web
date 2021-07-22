@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Container, Row, Col, Form, Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import connection from '../services/connection';
 
 
 export default function RegisterPage(props: UserModalProps) {
@@ -21,6 +22,11 @@ export default function RegisterPage(props: UserModalProps) {
       [e.currentTarget.name]: e.target.value
     });
   };
+  function send(u : User){
+
+  };
+
+
 
   return (
     <Container fluid className="page center">
@@ -31,26 +37,47 @@ export default function RegisterPage(props: UserModalProps) {
             <h1><span className="danger">Independent</span> Points</h1>
           </Row>
           <Row>
-            <Form>
+            <Form onSubmit={e => e.preventDefault()}>
 
               <Form.Group className="mb-3" controlId="name">
                 <Form.Label>Nome</Form.Label>
-                <Form.Control type="nome"   onChange={changeUser} placeholder="Digite seu nome" />
+
+                <Form.Control
+                  type="text"
+                  name="name"
+                  value={user?.name}
+                  placeholder="Informe seu nome"
+                  onChange={changeUser} />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="phone">
                 <Form.Label>Telefone</Form.Label>
-                <Form.Control type="phone"  onChange={changeUser} placeholder="Digite seu telefone" />
+                <Form.Control
+                  type="text"
+                  name="phone"
+                  value={user?.phone}
+                  placeholder="Informe seu telefone"
+                  onChange={changeUser} />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="email">
                 <Form.Label>E-mail</Form.Label>
-                <Form.Control type="email"  onChange={changeUser} placeholder="Digite seu e-mail" />
+                <Form.Control
+                  type="text"
+                  name="email"
+                  value={user?.email}
+                  placeholder="teste@teste.com"
+                  onChange={changeUser} />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="password">
                 <Form.Label>Senha</Form.Label>
-                <Form.Control type="password"  onChange={changeUser} placeholder="Digite sua senha" />
+                <Form.Control
+                  type="password"
+                  name="password"
+                  value={user?.password}
+                  placeholder="Senha.1234"
+                  onChange={changeUser} />
                 <Form.Text className="text-muted">
                   Atenção! Não compartilhe sua senha!
                 </Form.Text>
@@ -61,19 +88,17 @@ export default function RegisterPage(props: UserModalProps) {
                   <Button variant="dark"><Link to="/login">Voltar</Link></Button>
                 </ButtonGroup>
                 <ButtonGroup>
-                  <Button variant="danger" type="submit" onClick={() => {
-                  if (props.onFinish && props.onClose) {
-                    props.onFinish(user)
-                    props.onClose();
-                  }
-                }}>Cadastrar</Button>
+                  <Button variant="danger" type="submit" 
+                  onClick={async (User) => {await connection.post('/users/create', user).then(() => { }).catch(() => { });
+                  }}
+                  ><a href="http://localhost:3000/login">Cadastrar</a></Button>
                 </ButtonGroup>
               </ButtonToolbar>
-              
+
             </Form>
           </Row>
-        </Col>
-      </Row>
-    </Container>
+        </Col >
+      </Row >
+    </Container >
   );
 };

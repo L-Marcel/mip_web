@@ -95,7 +95,7 @@ export default function ProductListPage() {
                   <thead>
                     <tr key={`products-${i}`}>
                       <td ><h3>{p.name} - R$ {p.price.toFixed(2)}</h3></td>
-                      <td></td>
+      
                       <td>
                         <Button variant="danger" onClick={() => deleteProduct(p)} >Excluir</Button>
                         <Button variant="secondary" onClick={() => callEditModal(p)} >Editar</Button>

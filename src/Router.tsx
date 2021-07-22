@@ -5,6 +5,7 @@ import HomePage from './pages/Home';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import ProductListPage from './pages/product/List';
+import UserListPage from './pages/user/List';
 
 export default function AppRouter() {
   const [isAuth, setIsAuth] = useState<boolean>(true);//mudei só pra mexer
@@ -25,6 +26,7 @@ export default function AppRouter() {
           <Route path="/register" component={RegisterPage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/products" exact component={ProductListPage} />
+          <Route path="/users" exact component={UserListPage} />
           <Route path="/" component={HomePage} />
           <Redirect to="/login"/>
         </Switch> : <Switch>
