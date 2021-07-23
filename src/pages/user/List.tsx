@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import connection from "../../services/connection";
 import UserModal from "./Modal";
+import UserModal2 from "./Modal2";
 
 export default function UserListPage() {
     const [users, setUsers] = useState<User[]>([]);
@@ -64,7 +65,7 @@ export default function UserListPage() {
     return (
         <div>
             <Link to="/">Voltar</Link><br />
-            <UserModal
+            <UserModal2
                 {...modalProps}
                 onClose={handleHideModal}
                 onFinish={async (u) => {
@@ -80,7 +81,7 @@ export default function UserListPage() {
             />
             <button onClick={handleShowModal}>Adicionar</button>
             <ul>
-                {
+                { 
                     users.map((u, i) => {
                         return (
                             <li key={`users-${i}`}>

@@ -72,14 +72,14 @@ export default function LoginPage() {
                   value={credentials.password} placeholder="Digite sua senha"
                   onChange={changeCredentials} />
                 <Form.Text className="text-muted">
-                  Nunca compartilhe sua senha com alguém!!!
+                  Não compartilhe sua senha
                 </Form.Text>
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Check type="checkbox" checked={keep} label="Manter conectado" onChange={e => setKeep(e.currentTarget.checked)} />
               </Form.Group>
               {alert && <Alert variant="danger">
-                Não foi possivel encontrar o usuário!!!
+                Usuário ou senha inválidos
               </Alert>}
               <ButtonToolbar>
                 <ButtonGroup className="me-2">

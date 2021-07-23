@@ -82,7 +82,7 @@ export default function RegisterPage(props: UserModalProps) {
                 </Form.Text>
               </Form.Group>
               {alert && <Alert variant="danger">
-                Não foi possivel criar o usuário!!!
+                Não foi possivel criar o usuário
               </Alert>}
               <ButtonToolbar>
                 <ButtonGroup className="me-2">
