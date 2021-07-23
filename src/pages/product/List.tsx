@@ -88,7 +88,7 @@ export default function ProductListPage() {
               return (
                 <ListGroup.Item key={`products-${i}`}>
                   <div>
-                    <td><h5>{p.name} - R$ {p.price.toFixed(2)}</h5></td>
+                    <h5>{p.name} - R$ {p.price.toFixed(2)}</h5>
                   </div>
 
                   <ButtonToolbar>

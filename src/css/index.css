@@ -12,6 +12,30 @@
     overflow-x: hidden;
 }
 
+/* ------------- SCROLLBAR ------------- */
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+::-webkit-scrollbar:vertical {
+    width: 12px;
+}
+
+::-webkit-scrollbar:horizontal {
+    height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #545454;
+}
+
 /* ------------- BASE ------------- */
 
 body {
@@ -53,7 +77,6 @@ p {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    
 }
 
 .danger {
@@ -62,6 +85,14 @@ p {
 
 .page-with-menu {
     padding: 15px;
+}
+
+.no-margin-bottom {
+    margin-bottom: 0;
+}
+
+.margin-bottom {
+    margin-bottom: .5rem;
 }
 
 /* ------------- MENU ------------- */
@@ -88,6 +119,26 @@ p {
 .menu .nav {
     background-color: rgb(20, 20, 20);
     padding-left: calc(var(--bs-gutter-x) * .5);
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    min-width: 100%;
+}
+
+.menu .nav > .row {
+    flex-wrap: nowrap;
+    --bs-gutter-x: none;
+    --bs-gutter-y: none;
+    margin: 0 !important;
+}
+
+.menu .nav > .row > * {
+    flex-wrap: nowrap;
+    flex-shrink: none;
+    width: auto;
+    max-width: auto;
+    padding-right: 0;
+    padding-left: 0;
+    margin-top: 0;
 }
 
 .menu .nav-pills .nav-link {
@@ -190,17 +241,21 @@ li button {
 .mb-3.wrap-group {
     margin-top: -1rem !important;
 }
+
 .mb-3.wrap-group > .form-group {
     margin-top: 1rem !important;
 }
+
 .styleList Button{
     float: right;
     margin: 0rem 0.5rem 0rem 0.3rem;
 }
+
 .styleList Button:last-child{
     float: right;
    
 }
+
 .styleList ul{
 border-bottom: 1px solid rgb(190, 185, 185) ;
 }

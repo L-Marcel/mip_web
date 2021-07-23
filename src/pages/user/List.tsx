@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import Menu from "../components/Menu";
+import UserAltModal from "./Modal";
+import { Button, ListGroup, Container, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import connection from "../../services/connection";
-import UserModal from "./Modal";
-import UserModal2 from "./Modal2";
 
 export default function UserListPage() {
     const [users, setUsers] = useState<User[]>([]);
@@ -23,6 +23,9 @@ export default function UserListPage() {
     async function handleUpdateList() {
         await connection.get('users')
             .then((res) => {
+                for(let i in res.data){
+                    res.data[i].password = undefined; 
+                };
                 setUsers(res.data);
             })
             .catch(() => { });
@@ -64,8 +67,8 @@ export default function UserListPage() {
 
     return (
         <div>
-            <Link to="/">Voltar</Link><br />
-            <UserModal2
+            <Menu />
+            <UserAltModal
                 {...modalProps}
                 onClose={handleHideModal}
                 onFinish={async (u) => {
@@ -79,20 +82,34 @@ export default function UserListPage() {
                     handleUpdateList();
                 }}
             />
-            <button onClick={handleShowModal}>Adicionar</button>
-            <ul>
-                { 
+            <Container fluid className="page-with-menu">
+                <ListGroup>
+                {
                     users.map((u, i) => {
-                        return (
-                            <li key={`users-${i}`}>
-                                <h3>{u.id} - {u.name}</h3>
-                                <button onClick={() => callEditModal(u)}>Editar</button>
-                                <button onClick={() => deleteUser(u)}>Excluir</button>
-                            </li>
-                        );
+                    return (
+                        <ListGroup.Item key={`products-${i}`}>
+                            <div>
+                                <h5 className="no-margin-bottom">{u.name} - {u.email}</h5>
+                                <p className="margin-bottom">{u.phone}</p>
+                            </div>
+
+                            <ButtonToolbar>
+                                <ButtonGroup className="me-2">
+                                    <Button variant="secondary" onClick={() => callEditModal(u)} >Editar</Button>
+                                </ButtonGroup>
+                                { u.id !== undefined && u.id > 1 && <ButtonGroup>
+                                    <Button variant="danger" onClick={() => deleteUser(u)} >Excluir</Button>
+                                </ButtonGroup> }
+                            </ButtonToolbar>
+                        </ListGroup.Item>
+                    );
                     })
                 }
-            </ul>
+                <ListGroup.Item key={`products-add`}>
+                    <Button onClick={handleShowModal} variant="danger">Adicionar novo usuário</Button>
+                </ListGroup.Item>
+                </ListGroup>
+            </Container>
         </div>
     );
 };

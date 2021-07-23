@@ -51,4 +51,5 @@ declare type Service = {
 declare type AppContextType = {
  user: User | undefined,
  setUser: (user: User | undefined, keep: boolean) => void,
+ isAdm: boolean,
 }

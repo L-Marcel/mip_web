@@ -10,7 +10,7 @@ import JobsListPage from './pages/jobs/List';
 
 export default function AppRouter() {
   const [isAuth, setIsAuth] = useState<boolean>(false);
-  const { user } = useUser();
+  const { user, isAdm } = useUser();
 
   useEffect(() => {
     if (user?.id === undefined) {
@@ -23,18 +23,33 @@ export default function AppRouter() {
   return (
     <BrowserRouter>
       {
-        isAuth ? <Switch>
-          <Route path="/products" exact component={ProductListPage} />
-          <Route path="/jobs" exact component={JobsListPage} />
-          <Route path="/users" exact component={UserListPage} />
-          <Route path="/" component={HomePage} />
-          <Redirect to="/"/>
-        </Switch> : <Switch>
-          <Route path="/register" component={RegisterPage} />
-          <Route path="/" component={LoginPage} />
-          <Redirect to="/"/>
-        </Switch>
+        isAuth ?  
+          isAdm ? <AdmAuthRoute/>:
+          <UserAuthRoute/>
+        :<NoAuthRoute/>
       }
     </BrowserRouter>
   );
 };
+
+const NoAuthRoute = () => <Switch>
+  <Route path="/register" component={RegisterPage} />
+  <Route path="/" component={LoginPage} />
+  <Redirect to="/"/>
+</Switch>;
+
+const UserAuthRoute = () => <Switch>
+  <Route path="/products" exact component={ProductListPage} />
+  <Route path="/jobs" exact component={JobsListPage} />
+  <Route path="/" component={HomePage} />
+  <Redirect to="/"/>
+</Switch>;
+
+const AdmAuthRoute = () => <Switch>
+  <Route path="/products" exact component={ProductListPage} />
+  <Route path="/jobs" exact component={JobsListPage} />
+  <Route path="/adm/users" exact component={UserListPage} />
+  <Route path="/adm/products" exact component={ProductListPage} />
+  <Route path="/" component={HomePage} />
+  <Redirect to="/"/>
+</Switch>;
