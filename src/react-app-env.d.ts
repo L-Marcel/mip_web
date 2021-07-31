@@ -1,5 +1,10 @@
 /// <reference types="react-scripts" />
-
+declare module "leaflet.awesome-markers/dist/leaflet.awesome-markers";
+declare interface MapProps { 
+  dimensions: Dimensions;
+  mh: number | undefined;
+  ph: number | undefined;
+}
 declare interface ProductModalProps {
   show: boolean,
   defaultProduct: Product,
@@ -24,6 +29,11 @@ declare type User = {
  email: string,
  password?: string,
  phone: string,
+}
+
+declare type Dimensions = {
+  h: number;
+  w: number;
 }
 
 declare type Product = Item | Service;
@@ -52,4 +62,5 @@ declare type AppContextType = {
  user: User | undefined,
  setUser: (user: User | undefined, keep: boolean) => void,
  isAdm: boolean,
+ dimensions: Dimensions,
 }

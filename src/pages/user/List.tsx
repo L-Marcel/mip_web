@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Menu from "../components/Menu";
+import { Menu } from "../components/Menu";
 import UserAltModal from "./Modal";
 import { Button, ListGroup, Container, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import connection from "../../services/connection";

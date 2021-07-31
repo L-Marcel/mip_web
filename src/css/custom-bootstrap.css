@@ -26,3 +26,26 @@ button.close > span {
 table.table.table-sm {
     margin-bottom: 0;
 }
+
+.leaflet-touch .leaflet-bar a:last-child {
+    color: #dc3545;
+    background-color: #222222;
+}
+
+.leaflet-touch .leaflet-bar a:first-child {
+    background-color: #f74d5f;
+    border-bottom: none;
+}
+
+.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+    border: none;
+}
+
+.awesome-marker i {
+    font-size: 19px;
+    margin-top: 11px;
+}
+
+.awesome-marker-square.awesome-marker-icon-black {
+    background-position-x: -684px;
+}

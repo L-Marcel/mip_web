@@ -1,12 +1,24 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { debounce } from 'lodash';
 import { createContext } from 'use-context-selector';
 import checkIsAdm from '../services/administration';
 
 export const AppContext = createContext({} as AppContextType);
 
 export function AppProvider(props: { children: any }) {
+ const [dimensions, setDimensions] = useState<Dimensions>({ w: window.innerWidth, h: window.innerHeight });
  const [isAdm, setIsAdm] = useState<boolean>(false);
  const [user, setUser] = useState<User>();
+
+ useEffect(() => {
+  const onDimensionsChange = debounce(() => {
+   console.log(window.innerHeight);
+   setDimensions({ w: window.innerWidth, h: window.innerHeight });
+  }, 200);
+
+  window.addEventListener('resize', onDimensionsChange);
+  return () => window.removeEventListener('resize', onDimensionsChange);
+ }, []);
 
  const _setUser = useCallback((user: User | undefined, keep: boolean) => {
   if(keep && user !== undefined){
@@ -33,6 +45,7 @@ export function AppProvider(props: { children: any }) {
     user,
     setUser: _setUser,
     isAdm,
+    dimensions
    }}
   >
    {props.children}
