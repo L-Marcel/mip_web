@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Menu } from './components/Menu';
 import Map from "./components/Map";
 import { useDimensions } from "../hooks/useDimensions";
+import connection from "../services/connection";
 
 export default function HomePage() {
     const dimensions = useDimensions();
@@ -11,6 +12,7 @@ export default function HomePage() {
     const [ph, setPh] = useState(0);
     const menuRef = useRef<HTMLDivElement>(null);
     const pageRef = useRef<HTMLDivElement>(null);
+
     
     useEffect(() => {
         if(menuRef.current && pageRef.current){

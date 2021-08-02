@@ -56,6 +56,7 @@ export default function UserModal(props: UserModalProps) {
                                     required
                                     type="text"
                                     name="email"
+                                    autoComplete="off"
                                     value={user.email}
                                     onChange={changeUser}
                                     placeholder={ user.id === undefined? "Informe o e-mail":"Informe o novo e-mail" }
@@ -85,6 +86,7 @@ export default function UserModal(props: UserModalProps) {
                                     required
                                     type="text"
                                     name="password"
+                                    autoComplete="off"
                                     value={user.password}
                                     onChange={changeUser}
                                     placeholder={ user.id === undefined? "Informe a senha":"Informe a nova senha" }

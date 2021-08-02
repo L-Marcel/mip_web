@@ -63,12 +63,14 @@ export default function LoginPage() {
               <Form.Group className="mb-3">
                 <Form.Label>E-mail</Form.Label>
                 <Form.Control type="email" name="email"
+                  autoComplete="off"
                   value={credentials.email} placeholder="Digite seu e-mail"
                   onChange={changeCredentials} />
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Senha</Form.Label>
                 <Form.Control type="password" name="password"
+                   autoComplete="off"
                   value={credentials.password} placeholder="Digite sua senha"
                   onChange={changeCredentials} />
                 <Form.Text className="text-muted">

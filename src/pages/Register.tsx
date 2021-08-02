@@ -65,6 +65,7 @@ export default function RegisterPage(props: UserModalProps) {
                 <Form.Control
                   type="text"
                   name="email"
+                  autoComplete="off"
                   value={user?.email}
                   placeholder="Informe seu e-mail"
                   onChange={changeUser} />
@@ -74,6 +75,7 @@ export default function RegisterPage(props: UserModalProps) {
                 <Form.Control
                   type="password"
                   name="password"
+                  autoComplete="off"
                   value={user?.password}
                   placeholder="Informe sua senha"
                   onChange={changeUser} />

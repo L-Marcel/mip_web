@@ -242,6 +242,7 @@ p {
 li {
     display: flex;
 }
+
 li button {
     margin-left: 5px;
 }
@@ -254,22 +255,28 @@ li button {
     margin-top: 1rem !important;
 }
 
-.styleList Button{
+.styleList Button {
     float: right;
     margin: 0rem 0.5rem 0rem 0.3rem;
 }
 
-.styleList Button:last-child{
+.styleList Button:last-child {
     float: right;
    
 }
 
-.styleList ul{
+.styleList ul {
     border-bottom: 1px solid rgb(190, 185, 185) ;
 }
 
 /* ------------- MAP ------------- */
 
-
+.map-search {
+    display: flex;
+    position: absolute;
+    top: 0.6rem;
+    left: 3rem;
+    z-index: 1000;
+}
 
 

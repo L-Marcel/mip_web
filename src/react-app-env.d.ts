@@ -1,5 +1,7 @@
 /// <reference types="react-scripts" />
 declare module "leaflet.awesome-markers/dist/leaflet.awesome-markers";
+
+
 declare interface MapProps { 
   dimensions: Dimensions;
   mh: number | undefined;
@@ -63,4 +65,14 @@ declare type AppContextType = {
  setUser: (user: User | undefined, keep: boolean) => void,
  isAdm: boolean,
  dimensions: Dimensions,
+}
+
+declare type Job = {
+  id?: number,
+  name: string,
+  CNPJ?: string,
+  description?: string,
+  lat: number,
+  lng: number,
+  icon: MakerIcon,
 }
