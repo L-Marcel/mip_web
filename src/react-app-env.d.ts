@@ -1,6 +1,5 @@
 /// <reference types="react-scripts" />
 declare module "leaflet.awesome-markers/dist/leaflet.awesome-markers";
-
 declare interface JobRegisterMapProps extends MapProps {
   job: Job,
   onChangeLatLng: (position: LatLngExpression) => void,

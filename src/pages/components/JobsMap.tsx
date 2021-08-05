@@ -24,7 +24,7 @@ export default function JobsMap(props: JobRegisterMapProps) {
       props.onChangeLatLng(e.target._latlng);
     }
   },
- }),[]);
+ }),[props]);
 
  return(
   (props.ph || 0) > 0 &&
