@@ -7,6 +7,7 @@ import RegisterPage from './pages/Register';
 import ProductListPage from './pages/product/List';
 import UserListPage from './pages/user/List';
 import JobsListPage from './pages/jobs/List';
+import RegisterJobPage from './pages/jobs/CreateJobs';
 
 export default function AppRouter() {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -41,8 +42,11 @@ const NoAuthRoute = () => <Switch>
 const UserAuthRoute = () => <Switch>
   <Route path="/products" exact component={ProductListPage} />
   <Route path="/jobs" exact component={JobsListPage} />
+  <Route path="/registerJob" exact component={RegisterJobPage} />
   <Route path="/" component={HomePage} />
+  
   <Redirect to="/"/>
+  
 </Switch>;
 
 const AdmAuthRoute = () => <Switch>
@@ -50,6 +54,8 @@ const AdmAuthRoute = () => <Switch>
   <Route path="/jobs" exact component={JobsListPage} />
   <Route path="/adm/users" exact component={UserListPage} />
   <Route path="/adm/products" exact component={ProductListPage} />
+  <Route path="/registerJob" exact component={RegisterJobPage} />
   <Route path="/" component={HomePage} />
+  
   <Redirect to="/"/>
 </Switch>;

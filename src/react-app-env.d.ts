@@ -2,7 +2,7 @@
 declare module "leaflet.awesome-markers/dist/leaflet.awesome-markers";
 
 
-declare interface MapProps { 
+declare interface MapProps {
   dimensions: Dimensions;
   mh: number | undefined;
   ph: number | undefined;
@@ -19,18 +19,23 @@ declare interface UserModalProps {
   onFinish?: (user: User) => void,
   onClose?: () => void,
 }
+declare interface JobsPageProps {
+  defaultJob: Job,
+  onFinish?: (job: Job) => void,
+  onClose?: () => void,
+}
 
 declare type Credentials = {
   email: string,
   password: string,
-} 
+}
 
 declare type User = {
- id?: number,
- name: string,
- email: string,
- password?: string,
- phone: string,
+  id?: number,
+  name: string,
+  email: string,
+  password?: string,
+  phone: string,
 }
 
 declare type Dimensions = {
@@ -41,14 +46,14 @@ declare type Dimensions = {
 declare type Product = Item | Service;
 
 declare type Item = {
- job: number,
- type: "Item",
- id?: number,
- name: string,
- description?: string,
- price: number,
- delivery: boolean,
- unit: number,
+  job: number,
+  type: "Item",
+  id?: number,
+  name: string,
+  description?: string,
+  price: number,
+  delivery: boolean,
+  unit: number,
 }
 
 declare type Service = {
@@ -61,10 +66,10 @@ declare type Service = {
 }
 
 declare type AppContextType = {
- user: User | undefined,
- setUser: (user: User | undefined, keep: boolean) => void,
- isAdm: boolean,
- dimensions: Dimensions,
+  user: User | undefined,
+  setUser: (user: User | undefined, keep: boolean) => void,
+  isAdm: boolean,
+  dimensions: Dimensions,
 }
 
 declare type Job = {
