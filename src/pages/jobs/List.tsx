@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Container, ListGroup, Button, ButtonToolbar, ButtonGroup } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import connection from '../../services/connection';
 import { Menu } from '../components/Menu';
 
 export default function JobsListPage() {
+    const history = useHistory();
     const [jobs, setJobs] = useState<Job[]>([]);
    
     useEffect(() => {
@@ -18,8 +20,6 @@ export default function JobsListPage() {
             .catch(() => { });
     };
 
-    
-
     async function deleteProduct(j: Job) {
         await connection.delete(`jobs/delete?id=${j.id}`)
             .then(() => {
@@ -27,8 +27,6 @@ export default function JobsListPage() {
             })
             .catch(() => { });
     };
-
-
 
     return (
         <div>
@@ -56,7 +54,9 @@ export default function JobsListPage() {
                         })
                     }
                     <ListGroup.Item key={`jobs-add`}>
-                        <Button  variant="danger" href="http://localhost:3000/registerJob">Adicionar novo produto</Button>
+                        <Button  variant="danger" onClick={() => {
+                            history.push('jobs/register');
+                        }}>Adicionar novo produto</Button>
                     </ListGroup.Item>
                 </ListGroup>
             </Container>

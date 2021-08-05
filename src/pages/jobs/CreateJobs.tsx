@@ -1,48 +1,41 @@
 import "leaflet/dist/leaflet.css";
 import { Menu } from '../components/Menu';
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
-import { Col, Container, Form, Row } from "react-bootstrap";
-import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { marker } from "leaflet";
-import L from "leaflet";
-
-
+import { Form, Row } from "react-bootstrap";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import JobsMap from "../components/JobsMap";
+import { useDimensions } from "../../hooks/useDimensions";
+import { MarkerIcon } from "../../enums";
 
 export default function RegisterJobPage(props: JobsPageProps) {
+    const dimensions = useDimensions();
 
-    const [draggable, setDraggable] = useState(false)
-    const [position, setPosition] = useState({lat: 51.505,
-        lng: -0.09});
-    const markerRef = useRef(null);
-    const eventHandlers = useMemo(
-      () => ({
-        dragend() {
-          const marker = markerRef.current
-          if (marker != null) {
-            //setPosition(L.marker.getLatLng());
-          }
-        },
-      }),
-      [],
-    )
-    const toggleDraggable = useCallback(() => {
-      setDraggable((d) => !d)
-    }, [])
-
+    const [mh, setMh] = useState(0);
+    const [ph, setPh] = useState(0);
     const [job, setJob] = useState<Job>({
         name: "",
         CNPJ: "",
         description: "",
         lat: -5.1133,
         lng: -36.6348,
-        icon: "cadetblue:address-card:Outros",
+        icon: MarkerIcon[14],
     });
 
+    const menuRef = useRef<HTMLDivElement>(null);
+    const pageRef = useRef<HTMLDivElement>(null);
+
     useEffect(() => {
-        setJob(props.defaultJob);
-    }, [props.defaultJob]);
+        if(menuRef.current && pageRef.current){
+            let _mh = menuRef.current?.clientHeight;
+            let _ph = pageRef.current?.clientHeight;
 
+            if(_ph !== dimensions.h){
+                _ph = dimensions.h;
+            };
 
+            setMh(_mh);
+            setPh(_ph);
+        };
+    }, [dimensions]);
 
     function changeJob(e: ChangeEvent<any>) {
         setJob({
@@ -52,61 +45,42 @@ export default function RegisterJobPage(props: JobsPageProps) {
     };
 
     return (
-        <>
-            <Menu />
-                <Row style={{width:'100vw', height: '39vw'}}>
-                    <Col>
-                        <MapContainer id="map"
-                            style={{ width: '73,5vw', height: '40vw' }}
-                            center={[50.5, 30.5]}
-                            zoom={15}
-                            scrollWheelZoom={true}
-                        >
-                            <TileLayer
-                                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            />
-                            return(
-                            <Marker position={[50.5, 30.5]}
-                            >Teste
-
-                            </Marker>
-                            );
-                        </MapContainer>
-                    </Col>
-                    <Col  xs lg="3">
-                        <Form onSubmit={e => e.preventDefault()}>
-                            <Row className="mb-3 wrap-group">
-                                <Form.Group >
-                                    <Form.Label>Nome</Form.Label>
-                                    <Form.Control
-                                        value={job?.name}
-                                        name="name"
-                                        type="text"
-                                        onChange={changeJob}
-                                        placeholder="Informe o nome"
-                                    />
-                                </Form.Group>
-                            </Row><Row className="mb-3 wrap-group">
-                                <Form.Group>
-                                    <Form.Label>CNPJ/CPF</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        name="cnpj"
-                                        value={job?.CNPJ}
-                                        onChange={changeJob}
-                                        placeholder="Informe o CNPJ ou CPF" />
-                                </Form.Group>
-                            </Row><Row className="mb-3 wrap-group">
-                                <Form.Group>
-                                    <Form.Label>Descrição</Form.Label>
-                                    <Form.Control value={job?.description} name="description" as="textarea" onChange={changeJob} />
-                                </Form.Group>
-                            </Row>
-                        </Form>
-                    </Col>
+        <div style={{ width: dimensions.w, height: dimensions.h }} ref={pageRef}>
+            <Menu ref={menuRef}/>
+            <Form onSubmit={e => e.preventDefault()} className="jobs-form">
+                <Row className="mb-3 wrap-group">
+                    <Form.Group >
+                        <Form.Label>Nome</Form.Label>
+                        <Form.Control
+                            value={job?.name}
+                            name="name"
+                            type="text"
+                            onChange={changeJob}
+                            placeholder="Informe o nome"
+                        />
+                    </Form.Group>
+                </Row><Row className="mb-3 wrap-group">
+                    <Form.Group>
+                        <Form.Label>CNPJ/CPF</Form.Label>
+                        <Form.Control
+                            required
+                            type="text"
+                            name="cnpj"
+                            value={job?.CNPJ}
+                            onChange={changeJob}
+                            placeholder="Informe o CNPJ ou CPF" />
+                    </Form.Group>
+                </Row><Row className="mb-3 wrap-group">
+                    <Form.Group>
+                        <Form.Label>Descrição</Form.Label>
+                        <Form.Control value={job?.description} name="description" as="textarea" onChange={changeJob} />
+                    </Form.Group>
                 </Row>
-        </>
+            </Form>
+            <JobsMap onChangeLatLng={(p) => { 
+                setJob({ ...job, ...p });
+                console.log({ ...p });
+            }} job={job} dimensions={dimensions} mh={mh} ph={ph}/>
+        </div>
     )
 };

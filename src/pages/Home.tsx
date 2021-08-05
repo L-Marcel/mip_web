@@ -12,7 +12,6 @@ export default function HomePage() {
     const [ph, setPh] = useState(0);
     const menuRef = useRef<HTMLDivElement>(null);
     const pageRef = useRef<HTMLDivElement>(null);
-
     
     useEffect(() => {
         if(menuRef.current && pageRef.current){

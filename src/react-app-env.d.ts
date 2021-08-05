@@ -1,11 +1,14 @@
 /// <reference types="react-scripts" />
 declare module "leaflet.awesome-markers/dist/leaflet.awesome-markers";
 
-
+declare interface JobRegisterMapProps extends MapProps {
+  job: Job,
+  onChangeLatLng: (position: LatLngExpression) => void,
+}
 declare interface MapProps {
-  dimensions: Dimensions;
-  mh: number | undefined;
-  ph: number | undefined;
+  dimensions: Dimensions,
+  mh: number | undefined,
+  ph: number | undefined,
 }
 declare interface ProductModalProps {
   show: boolean,
@@ -20,7 +23,6 @@ declare interface UserModalProps {
   onClose?: () => void,
 }
 declare interface JobsPageProps {
-  defaultJob: Job,
   onFinish?: (job: Job) => void,
   onClose?: () => void,
 }

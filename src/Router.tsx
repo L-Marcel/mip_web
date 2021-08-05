@@ -42,7 +42,7 @@ const NoAuthRoute = () => <Switch>
 const UserAuthRoute = () => <Switch>
   <Route path="/products" exact component={ProductListPage} />
   <Route path="/jobs" exact component={JobsListPage} />
-  <Route path="/registerJob" exact component={RegisterJobPage} />
+  <Route path="/jobs/register" exact component={RegisterJobPage} />
   <Route path="/" component={HomePage} />
   
   <Redirect to="/"/>
@@ -54,7 +54,7 @@ const AdmAuthRoute = () => <Switch>
   <Route path="/jobs" exact component={JobsListPage} />
   <Route path="/adm/users" exact component={UserListPage} />
   <Route path="/adm/products" exact component={ProductListPage} />
-  <Route path="/registerJob" exact component={RegisterJobPage} />
+  <Route path="/jobs/register" exact component={RegisterJobPage} />
   <Route path="/" component={HomePage} />
   
   <Redirect to="/"/>
