@@ -9,6 +9,11 @@ declare interface MapProps {
   mh: number | undefined,
   ph: number | undefined,
 }
+
+declare interface ProductProps {
+  job?: number
+}
+
 declare interface ProductModalProps {
   show: boolean,
   defaultProduct: Product,

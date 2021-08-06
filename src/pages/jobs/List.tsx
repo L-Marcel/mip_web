@@ -50,7 +50,7 @@ export default function JobsListPage() {
                                 <ListGroup.Item key={`jobs-${i}`}>
                                     <div>
                                         <h5>{j.name} | {t}</h5>
-                                        <p>{j.description}</p>
+                                        { j.description && <p className="margin-bottom">{j.description}</p>}
                                     </div>
 
                                     <ButtonToolbar>

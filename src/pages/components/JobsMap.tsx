@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
-import L, { LeafletEventHandlerFnMap } from "leaflet";
+import { LeafletEventHandlerFnMap } from "leaflet";
 import getIcon, { getIconIndex } from '../../assets/icons';
 import 'leaflet.awesome-markers';
 

@@ -26,7 +26,7 @@ export enum ProductType {
 };
 
 export enum MarkerIcon {
- "red:book-reader:Aula",
+ "red:book-reader:Ensino",
  "darkred:user-md:Saúde",
  "darkred:dumbbell:Academia",
  "orange:store:Loja",
@@ -39,7 +39,7 @@ export enum MarkerIcon {
  "blue:hamburger:Comida",
  "purple:air-freshener:Beleza",
  "darkpurple:user-tie:Justiça",
- "cadetblue:screwdriver:Reparo",
+ "cadetblue:screwdriver:Reparo ou instalação",
  "cadetblue:address-card:Outros",
  "gray:hard-hat:Construção",
  "gray:car-side:Transporte",

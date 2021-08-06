@@ -134,9 +134,9 @@ export default function RegisterJobPage() {
                     <ButtonGroup>
                         <Button variant="danger" onClick={() => {
                             if (job?.id === undefined) {
-                                connection.post('/jobs/create', { job, user_id: user?.id }).then(() => { }).catch(() => { });
+                                connection.post('/jobs/create', { ...job, user: user?.id }).then(() => { }).catch(() => { });
                             } else {
-                                connection.post('/jobs/update', { job, user_id: job?.user }).then(() => { }).catch(() => { });
+                                connection.post('/jobs/update', { ...job, user: job?.user }).then(() => { }).catch(() => { });
                             }
                             history.push('/jobs');
                         }}>Enviar</Button>

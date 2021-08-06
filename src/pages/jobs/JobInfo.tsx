@@ -1,17 +1,16 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { MarkerIcon } from "../../enums";
 import { Menu } from "../components/Menu";
 import { Container, Col, Row, ListGroup, ButtonToolbar, ButtonGroup, Button } from "react-bootstrap";
-
-
+import Products from "../product/Products";
 
 export default function JobPageInfo() {
     const history = useHistory();
-    let _j = useLocation().state as Job | undefined;
-    if (_j === undefined) {
-        _j = {
+    let job = useLocation().state as Job | undefined;
+    if (job === undefined) {
+        job = {
             name: "",
             CNPJ: "",
             description: "",
@@ -21,7 +20,6 @@ export default function JobPageInfo() {
         };
     }
 
-    const [job, setJob] = useState(_j);
     const t = job.icon.split(":")[2];
 
     return (
@@ -50,6 +48,7 @@ export default function JobPageInfo() {
                             <ListGroup.Item>
                                 <Row><p><b>Descrição: </b>{job.description}</p></Row></ListGroup.Item>
                         </ListGroup>
+                        <Products/>
                         <ButtonToolbar>
                             <ButtonGroup className="me-2">
                                 <Button variant="danger" onClick={() => { history.goBack(); }}>
