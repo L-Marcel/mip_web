@@ -1,34 +1,44 @@
 import "leaflet/dist/leaflet.css";
 import { Menu } from '../components/Menu';
-import { Form, Row } from "react-bootstrap";
+import { Button, ButtonGroup, ButtonToolbar, Col, Form, Row } from "react-bootstrap";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import JobsMap from "../components/JobsMap";
 import { useDimensions } from "../../hooks/useDimensions";
-import { MarkerIcon } from "../../enums";
+import { enumToStringArray, MarkerIcon } from "../../enums";
+import connection from "../../services/connection";
+import { useLocation, useHistory } from "react-router-dom";
 
 export default function RegisterJobPage(props: JobsPageProps) {
+    const history = useHistory();
     const dimensions = useDimensions();
-
     const [mh, setMh] = useState(0);
     const [ph, setPh] = useState(0);
-    const [job, setJob] = useState<Job>({
-        name: "",
-        CNPJ: "",
-        description: "",
-        lat: -5.1133,
-        lng: -36.6348,
-        icon: MarkerIcon[14],
-    });
+
+    let _j = useLocation().state as Job | undefined;
+    if (_j === undefined) {
+        _j = {
+            name: "",
+            CNPJ: "",
+            description: "",
+            lat: -5.1133,
+            lng: -36.6348,
+            icon: MarkerIcon[14],
+        };
+    }
+
+    const [job, setJob] = useState(_j);
+
+
 
     const menuRef = useRef<HTMLDivElement>(null);
     const pageRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if(menuRef.current && pageRef.current){
+        if (menuRef.current && pageRef.current) {
             let _mh = menuRef.current?.clientHeight;
             let _ph = pageRef.current?.clientHeight;
 
-            if(_ph !== dimensions.h){
+            if (_ph !== dimensions.h) {
                 _ph = dimensions.h;
             };
 
@@ -36,6 +46,8 @@ export default function RegisterJobPage(props: JobsPageProps) {
             setPh(_ph);
         };
     }, [dimensions]);
+    useEffect(() => { setJob(job) }, [job])
+
 
     function changeJob(e: ChangeEvent<any>) {
         setJob({
@@ -44,9 +56,11 @@ export default function RegisterJobPage(props: JobsPageProps) {
         });
     };
 
+
+
     return (
         <div style={{ width: dimensions.w, height: dimensions.h }} ref={pageRef}>
-            <Menu ref={menuRef}/>
+            <Menu ref={menuRef} />
             <Form onSubmit={e => e.preventDefault()} className="jobs-form">
                 <Row className="mb-3 wrap-group">
                     <Form.Group >
@@ -60,27 +74,82 @@ export default function RegisterJobPage(props: JobsPageProps) {
                         />
                     </Form.Group>
                 </Row><Row className="mb-3 wrap-group">
-                    <Form.Group>
+                    <Form.Group as={Col} md="3">
                         <Form.Label>CNPJ/CPF</Form.Label>
                         <Form.Control
                             required
                             type="text"
-                            name="cnpj"
+                            name="CNPJ"
                             value={job?.CNPJ}
                             onChange={changeJob}
                             placeholder="Informe o CNPJ ou CPF" />
+                    </Form.Group>
+                    <Form.Group as={Col} md="3">
+                        <Form.Label>Icone</Form.Label>
+                        <Form.Control
+                            value={job?.icon}
+                            as="select" name="icon"
+                            aria-label="Floating label select example"
+                            onChange={changeJob}>
+                            {enumToStringArray(MarkerIcon).map((m, i) => {
+
+                                const array = m.split(":");
+                                return (
+                                    <option key={`marker-icon-option-${i}`} value={m}>{array[2]}</option>
+                                );
+
+                            })}
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group as={Col} md="3">
+                        <Form.Label>Latitude</Form.Label>
+                        <Form.Control
+                            required
+                            type="text"
+                            name="lat"
+                            value={job?.lat}
+                            onChange={changeJob} />
+                    </Form.Group><Form.Group as={Col} md="3">
+                        <Form.Label>Longitude</Form.Label>
+                        <Form.Control
+                            required
+                            type="text"
+                            name="lng"
+                            value={job?.lng}
+                            onChange={changeJob} />
+
                     </Form.Group>
                 </Row><Row className="mb-3 wrap-group">
                     <Form.Group>
                         <Form.Label>Descrição</Form.Label>
                         <Form.Control value={job?.description} name="description" as="textarea" onChange={changeJob} />
                     </Form.Group>
+                </Row><Row className="mb-3 wrap-group">
+                    <ButtonToolbar>
+                        <ButtonGroup className="me-2">
+                            <Button variant="secondary" onClick={() => { history.goBack(); }}>
+                                Voltar
+                            </Button>
+                        </ButtonGroup>
+                        <ButtonGroup>
+                            <Button variant="danger" onClick={() => {
+                                if (job?.id === undefined) {
+                                    connection.post('/jobs/create', job).then(() => { }).catch(() => { });
+                                } else {
+                                    connection.post('/jobs/update', job).then(() => { }).catch(() => { });
+                                }
+
+                                history.push('/jobs');
+                                console.log("Job Criado")
+                            }}>Enviar</Button>
+                        </ButtonGroup>
+                    </ButtonToolbar>
                 </Row>
             </Form>
-            <JobsMap onChangeLatLng={(p) => { 
+            <JobsMap onChangeLatLng={(p) => {
                 setJob({ ...job, ...p });
                 console.log({ ...p });
-            }} job={job} dimensions={dimensions} mh={mh} ph={ph}/>
+            }} job={job} dimensions={dimensions} mh={mh} ph={ph} />
         </div>
     )
 };

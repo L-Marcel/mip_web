@@ -7,18 +7,19 @@ import { Menu } from '../components/Menu';
 export default function JobsListPage() {
     const history = useHistory();
     const [jobs, setJobs] = useState<Job[]>([]);
-   
+
     useEffect(() => {
         handleUpdateList();
     }, []);
 
     async function handleUpdateList() {
-        await connection.get('products')
+        await connection.get('jobs')
             .then((res) => {
                 setJobs(res.data);
             })
             .catch(() => { });
     };
+
 
     async function deleteProduct(j: Job) {
         await connection.delete(`jobs/delete?id=${j.id}`)
@@ -43,7 +44,7 @@ export default function JobsListPage() {
 
                                     <ButtonToolbar>
                                         <ButtonGroup className="me-2">
-                                            <Button variant="secondary" >Editar</Button>
+                                            <Button variant="secondary" onClick={() => history.push({ pathname: "jobs/register", state: j })} >Editar</Button>
                                         </ButtonGroup>
                                         <ButtonGroup>
                                             <Button variant="danger" onClick={() => deleteProduct(j)} >Excluir</Button>
@@ -54,13 +55,14 @@ export default function JobsListPage() {
                         })
                     }
                     <ListGroup.Item key={`jobs-add`}>
-                        <Button  variant="danger" onClick={() => {
+                        <Button variant="danger" onClick={() => {
                             history.push('jobs/register');
+
                         }}>Adicionar novo produto</Button>
                     </ListGroup.Item>
                 </ListGroup>
             </Container>
-        </div>
+        </div >
     );
 
 };
