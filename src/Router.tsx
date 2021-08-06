@@ -44,18 +44,14 @@ const UserAuthRoute = () => <Switch>
   <Route path="/jobs" exact component={JobsListPage} />
   <Route path="/jobs/register" exact component={RegisterJobPage} />
   <Route path="/" component={HomePage} />
-  
   <Redirect to="/"/>
-  
 </Switch>;
 
 const AdmAuthRoute = () => <Switch>
-  <Route path="/products" exact component={ProductListPage} />
-  <Route path="/jobs" exact component={JobsListPage} />
+  <Route path="/adm/jobs" exact component={JobsListPage} />
   <Route path="/adm/users" exact component={UserListPage} />
   <Route path="/adm/products" exact component={ProductListPage} />
   <Route path="/jobs/register" exact component={RegisterJobPage} />
   <Route path="/" component={HomePage} />
-  
   <Redirect to="/"/>
 </Switch>;

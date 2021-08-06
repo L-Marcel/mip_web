@@ -7,8 +7,11 @@ import { useDimensions } from "../../hooks/useDimensions";
 import { enumToStringArray, MarkerIcon } from "../../enums";
 import connection from "../../services/connection";
 import { useLocation, useHistory } from "react-router-dom";
+import { useUser } from "../../hooks/useUser";
 
 export default function RegisterJobPage(props: JobsPageProps) {
+    const { user, isAdm } = useUser();
+    const [users, setUsers] = useState<User[]>(user !== undefined? [user]:[]);
     const history = useHistory();
     const dimensions = useDimensions();
     const [mh, setMh] = useState(0);
@@ -28,8 +31,6 @@ export default function RegisterJobPage(props: JobsPageProps) {
 
     const [job, setJob] = useState(_j);
 
-
-
     const menuRef = useRef<HTMLDivElement>(null);
     const pageRef = useRef<HTMLDivElement>(null);
 
@@ -46,7 +47,14 @@ export default function RegisterJobPage(props: JobsPageProps) {
             setPh(_ph);
         };
     }, [dimensions]);
-    useEffect(() => { setJob(job) }, [job])
+
+    useEffect(() => {
+        if(isAdm){
+            connection.get('users').then((res) => {
+                setUsers(res.data);
+            }).catch(() => {});
+        };
+    }, [isAdm]);
 
 
     function changeJob(e: ChangeEvent<any>) {
@@ -56,14 +64,12 @@ export default function RegisterJobPage(props: JobsPageProps) {
         });
     };
 
-
-
     return (
         <div style={{ width: dimensions.w, height: dimensions.h }} ref={pageRef}>
             <Menu ref={menuRef} />
             <Form onSubmit={e => e.preventDefault()} className="jobs-form">
                 <Row className="mb-3 wrap-group">
-                    <Form.Group >
+                    <Form.Group as={Col}>
                         <Form.Label>Nome</Form.Label>
                         <Form.Control
                             value={job?.name}
@@ -73,8 +79,22 @@ export default function RegisterJobPage(props: JobsPageProps) {
                             placeholder="Informe o nome"
                         />
                     </Form.Group>
-                </Row><Row className="mb-3 wrap-group">
-                    <Form.Group as={Col} md="3">
+                    { isAdm && job?.user !== undefined && <Form.Group as={Col}>
+                        <Form.Label>Usuário</Form.Label>
+                        <Form.Control
+                                value={job?.user}
+                                as="select" name="user"
+                                onChange={changeJob}>
+                                {users.map((u, i) => {
+                                    return (
+                                        <option key={`user-id-option-${i}`} value={u?.id}>{u.name}</option>
+                                    );
+                                })}
+                        </Form.Control>
+                    </Form.Group> }
+                </Row>
+                <Row className="mb-3 wrap-group">
+                    <Form.Group as={Col}>
                         <Form.Label>CNPJ/CPF</Form.Label>
                         <Form.Control
                             required
@@ -84,67 +104,44 @@ export default function RegisterJobPage(props: JobsPageProps) {
                             onChange={changeJob}
                             placeholder="Informe o CNPJ ou CPF" />
                     </Form.Group>
-                    <Form.Group as={Col} md="3">
-                        <Form.Label>Icone</Form.Label>
+                    <Form.Group as={Col}>
+                        <Form.Label>Classificação</Form.Label>
                         <Form.Control
                             value={job?.icon}
                             as="select" name="icon"
-                            aria-label="Floating label select example"
                             onChange={changeJob}>
                             {enumToStringArray(MarkerIcon).map((m, i) => {
-
                                 const array = m.split(":");
                                 return (
                                     <option key={`marker-icon-option-${i}`} value={m}>{array[2]}</option>
                                 );
-
                             })}
                         </Form.Control>
                     </Form.Group>
-                    <Form.Group as={Col} md="3">
-                        <Form.Label>Latitude</Form.Label>
-                        <Form.Control
-                            required
-                            type="text"
-                            name="lat"
-                            value={job?.lat}
-                            onChange={changeJob} />
-                    </Form.Group><Form.Group as={Col} md="3">
-                        <Form.Label>Longitude</Form.Label>
-                        <Form.Control
-                            required
-                            type="text"
-                            name="lng"
-                            value={job?.lng}
-                            onChange={changeJob} />
-
-                    </Form.Group>
-                </Row><Row className="mb-3 wrap-group">
+                </Row>
+                <Row className="mb-3 wrap-group">
                     <Form.Group>
                         <Form.Label>Descrição</Form.Label>
                         <Form.Control value={job?.description} name="description" as="textarea" onChange={changeJob} />
                     </Form.Group>
-                </Row><Row className="mb-3 wrap-group">
-                    <ButtonToolbar>
-                        <ButtonGroup className="me-2">
-                            <Button variant="secondary" onClick={() => { history.goBack(); }}>
-                                Voltar
-                            </Button>
-                        </ButtonGroup>
-                        <ButtonGroup>
-                            <Button variant="danger" onClick={() => {
-                                if (job?.id === undefined) {
-                                    connection.post('/jobs/create', job).then(() => { }).catch(() => { });
-                                } else {
-                                    connection.post('/jobs/update', job).then(() => { }).catch(() => { });
-                                }
-
-                                history.push('/jobs');
-                                console.log("Job Criado")
-                            }}>Enviar</Button>
-                        </ButtonGroup>
-                    </ButtonToolbar>
                 </Row>
+                <ButtonToolbar>
+                    <ButtonGroup className="me-2">
+                        <Button variant="secondary" onClick={() => { history.goBack(); }}>
+                            Voltar
+                        </Button>
+                    </ButtonGroup>
+                    <ButtonGroup>
+                        <Button variant="danger" onClick={() => {
+                            if (job?.id === undefined) {
+                                connection.post('/jobs/create', { job, user_id: user?.id }).then(() => { }).catch(() => { });
+                            } else {
+                                connection.post('/jobs/update', { job, user_id: job?.user }).then(() => { }).catch(() => { });
+                            }
+                            history.push('/jobs');
+                        }}>Enviar</Button>
+                    </ButtonGroup>
+                </ButtonToolbar>
             </Form>
             <JobsMap onChangeLatLng={(p) => {
                 setJob({ ...job, ...p });

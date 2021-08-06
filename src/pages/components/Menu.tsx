@@ -86,11 +86,11 @@ export const Menu = React.forwardRef<HTMLDivElement>((props, ref) => {
                                     history.push("/");
                                 }}>Mapa</Nav.Link>
                             </Nav.Item>
-                            <Nav.Item>
+                            {!isAdm && <Nav.Item>
                                 <Nav.Link eventKey="/jobs" onClick={() => {
                                     history.push("/jobs");
                                 }}>Meus trabalhos</Nav.Link>
-                            </Nav.Item>
+                            </Nav.Item> }
                             {isAdm && <>
                                 <Nav.Item className="adm">
                                     <Nav.Link eventKey="/adm/users" onClick={() => {

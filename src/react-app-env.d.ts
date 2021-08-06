@@ -81,4 +81,5 @@ declare type Job = {
   lat: number,
   lng: number,
   icon: MakerIcon,
+  user?: number
 }

@@ -5,8 +5,10 @@ import { FaChevronDown, FaChevronUp, FaTimes } from 'react-icons/fa'
 import getIcon, { getIconIndex } from '../../assets/icons';
 import connection from '../../services/connection';
 import { enumToStringArray, MarkerIcon } from '../../enums';
+import { useHistory } from 'react-router-dom';
 
 export default function Map(props: MapProps) {
+  const history = useHistory();
   const [selectedJob, setSelectedJob] = useState<number>(-1);
   const [jobs, setJobs] = useState<Job[]>([]);
   const [job, setJob] = useState<Job>();
@@ -97,7 +99,7 @@ export default function Map(props: MapProps) {
           </Container>
         </Collapse>
         { job && <div id="info">
-          <Button id="open" onClick={() => {}}>
+          <Button id="open" onClick={() => history.push({ pathname: "/jobs/info", state: job })}>
             Abrir página
           </Button>
           <Button id="close" onClick={() => setSelectedJob(-1)}>
@@ -125,7 +127,7 @@ export default function Map(props: MapProps) {
           };
 
           return(
-            <Marker key={`marker-${i}`} icon={icon[0]} position={position} eventHandlers={{
+            <Marker key={`marker-${i}`} icon={icon[0]} position={{ lat: m.lat, lng: m.lng }} eventHandlers={{
               click: () => {
                 setSelectedJob(m.id? m.id:-1);
               }
