@@ -6,7 +6,7 @@ export default function ProductListPage() {
   return (
     <div>
       <Menu />
-      <Products/>
+      <Products />
     </div>
   );
 };

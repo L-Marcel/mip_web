@@ -10,9 +10,9 @@ export default function JobsListPage() {
     const history = useHistory();
     const [jobs, setJobs] = useState<Job[]>([]);
 
-    const handleUpdateList = useCallback(async() => {
-        if(!isAdm) {
-            await connection.get(`jobs?user_id=${user?.id}`)
+    const handleUpdateList = useCallback(async () => {
+        if (!isAdm) {
+            await connection.get(`jobs?user=${user?.id}`)
                 .then((res) => {
                     setJobs(res.data);
                 })
@@ -50,7 +50,7 @@ export default function JobsListPage() {
                                 <ListGroup.Item key={`jobs-${i}`}>
                                     <div>
                                         <h5>{j.name} | {t}</h5>
-                                        { j.description && <p className="margin-bottom">{j.description}</p>}
+                                        {j.description && <p className="margin-bottom">{j.description}</p>}
                                     </div>
 
                                     <ButtonToolbar>
