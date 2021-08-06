@@ -21,10 +21,7 @@ declare interface UserModalProps {
   onFinish?: (user: User) => void,
   onClose?: () => void,
 }
-declare interface JobsPageProps {
-  onFinish?: (job: Job) => void,
-  onClose?: () => void,
-}
+
 
 declare type Credentials = {
   email: string,

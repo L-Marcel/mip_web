@@ -9,9 +9,9 @@ import connection from "../../services/connection";
 import { useLocation, useHistory } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
 
-export default function RegisterJobPage(props: JobsPageProps) {
+export default function RegisterJobPage() {
     const { user, isAdm } = useUser();
-    const [users, setUsers] = useState<User[]>(user !== undefined? [user]:[]);
+    const [users, setUsers] = useState<User[]>(user !== undefined ? [user] : []);
     const history = useHistory();
     const dimensions = useDimensions();
     const [mh, setMh] = useState(0);
@@ -49,10 +49,10 @@ export default function RegisterJobPage(props: JobsPageProps) {
     }, [dimensions]);
 
     useEffect(() => {
-        if(isAdm){
+        if (isAdm) {
             connection.get('users').then((res) => {
                 setUsers(res.data);
-            }).catch(() => {});
+            }).catch(() => { });
         };
     }, [isAdm]);
 
@@ -79,19 +79,19 @@ export default function RegisterJobPage(props: JobsPageProps) {
                             placeholder="Informe o nome"
                         />
                     </Form.Group>
-                    { isAdm && job?.user !== undefined && <Form.Group as={Col}>
+                    {isAdm && job?.user !== undefined && <Form.Group as={Col}>
                         <Form.Label>Usuário</Form.Label>
                         <Form.Control
-                                value={job?.user}
-                                as="select" name="user"
-                                onChange={changeJob}>
-                                {users.map((u, i) => {
-                                    return (
-                                        <option key={`user-id-option-${i}`} value={u?.id}>{u.name}</option>
-                                    );
-                                })}
+                            value={job?.user}
+                            as="select" name="user"
+                            onChange={changeJob}>
+                            {users.map((u, i) => {
+                                return (
+                                    <option key={`user-id-option-${i}`} value={u?.id}>{u.name}</option>
+                                );
+                            })}
                         </Form.Control>
-                    </Form.Group> }
+                    </Form.Group>}
                 </Row>
                 <Row className="mb-3 wrap-group">
                     <Form.Group as={Col}>

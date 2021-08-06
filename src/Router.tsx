@@ -8,6 +8,7 @@ import ProductListPage from './pages/product/List';
 import UserListPage from './pages/user/List';
 import JobsListPage from './pages/jobs/List';
 import RegisterJobPage from './pages/jobs/CreateJobs';
+import JobPageInfo from './pages/jobs/JobInfo';
 
 export default function AppRouter() {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -24,10 +25,10 @@ export default function AppRouter() {
   return (
     <BrowserRouter>
       {
-        isAuth ?  
-          isAdm ? <AdmAuthRoute/>:
-          <UserAuthRoute/>
-        :<NoAuthRoute/>
+        isAuth ?
+          isAdm ? <AdmAuthRoute /> :
+            <UserAuthRoute />
+          : <NoAuthRoute />
       }
     </BrowserRouter>
   );
@@ -36,15 +37,16 @@ export default function AppRouter() {
 const NoAuthRoute = () => <Switch>
   <Route path="/register" component={RegisterPage} />
   <Route path="/" component={LoginPage} />
-  <Redirect to="/"/>
+  <Redirect to="/" />
 </Switch>;
 
 const UserAuthRoute = () => <Switch>
   <Route path="/products" exact component={ProductListPage} />
   <Route path="/jobs" exact component={JobsListPage} />
   <Route path="/jobs/register" exact component={RegisterJobPage} />
+  <Route path="/jobs/info" exact component={JobPageInfo} />
   <Route path="/" component={HomePage} />
-  <Redirect to="/"/>
+  <Redirect to="/" />
 </Switch>;
 
 const AdmAuthRoute = () => <Switch>
@@ -52,6 +54,7 @@ const AdmAuthRoute = () => <Switch>
   <Route path="/adm/users" exact component={UserListPage} />
   <Route path="/adm/products" exact component={ProductListPage} />
   <Route path="/jobs/register" exact component={RegisterJobPage} />
+  <Route path="/jobs/info" exact component={JobPageInfo} />
   <Route path="/" component={HomePage} />
-  <Redirect to="/"/>
+  <Redirect to="/" />
 </Switch>;
