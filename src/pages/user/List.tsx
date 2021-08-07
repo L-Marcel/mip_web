@@ -84,6 +84,9 @@ export default function UserListPage() {
             />
             <Container fluid className="page-with-menu">
                 <ListGroup>
+                    <ListGroup.Item key={`products-add`}>
+                        <Button onClick={handleShowModal} variant="danger">Adicionar novo usuário</Button>
+                    </ListGroup.Item>
                 {
                     users.map((u, i) => {
                     return (
@@ -105,9 +108,6 @@ export default function UserListPage() {
                     );
                     })
                 }
-                <ListGroup.Item key={`products-add`}>
-                    <Button onClick={handleShowModal} variant="danger">Adicionar novo usuário</Button>
-                </ListGroup.Item>
                 </ListGroup>
             </Container>
         </div>

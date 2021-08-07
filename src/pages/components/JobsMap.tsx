@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
 import { LeafletEventHandlerFnMap } from "leaflet";
 import getIcon, { getIconIndex } from '../../assets/icons';
-import 'leaflet.awesome-markers';
+import 'leaflet.awesome-markers'; 
 
 export default function JobsMap(props: JobRegisterMapProps) {
   const iconIndex = getIconIndex(props.job.icon) as number;

@@ -138,14 +138,13 @@ export default function RegisterJobPage() {
                             } else {
                                 connection.post('/jobs/update', { ...job, user: job?.user }).then(() => { }).catch(() => { });
                             }
-                            history.push('/jobs');
+                            history.push(isAdm? '/adm/jobs':'/jobs');
                         }}>Enviar</Button>
                     </ButtonGroup>
                 </ButtonToolbar>
             </Form>
             <JobsMap onChangeLatLng={(p) => {
                 setJob({ ...job, ...p });
-                console.log({ ...p });
             }} job={job} dimensions={dimensions} mh={mh} ph={ph} />
         </div>
     )

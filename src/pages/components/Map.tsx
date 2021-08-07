@@ -6,6 +6,7 @@ import getIcon, { getIconIndex } from '../../assets/icons';
 import connection from '../../services/connection';
 import { enumToStringArray, MarkerIcon } from '../../enums';
 import { useHistory } from 'react-router-dom';
+import 'leaflet.awesome-markers'; 
 
 export default function Map(props: MapProps) {
   const history = useHistory();

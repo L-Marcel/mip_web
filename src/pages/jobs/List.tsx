@@ -43,6 +43,11 @@ export default function JobsListPage() {
             <Menu />
             <Container fluid className="page-with-menu">
                 <ListGroup>
+                    <ListGroup.Item key={`jobs-add`}>
+                        <Button variant="danger" onClick={() => {
+                            history.push('/jobs/register');
+                        }}>Adicionar novo trabalho</Button>
+                    </ListGroup.Item>
                     {
                         jobs.map((j, i) => {
                             let t = j.icon.split(":")[2];
@@ -68,11 +73,6 @@ export default function JobsListPage() {
                             );
                         })
                     }
-                    <ListGroup.Item key={`jobs-add`}>
-                        <Button variant="danger" onClick={() => {
-                            history.push('/jobs/register');
-                        }}>Adicionar novo trabalho</Button>
-                    </ListGroup.Item>
                 </ListGroup>
             </Container>
         </div >

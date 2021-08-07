@@ -12,7 +12,6 @@ export default function HomePage() {
     const menuRef = useRef<HTMLDivElement>(null);
     const pageRef = useRef<HTMLDivElement>(null);
 
-    
     useEffect(() => {
         if(menuRef.current && pageRef.current){
             let _mh = menuRef.current?.clientHeight;
