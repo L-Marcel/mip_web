@@ -10,7 +10,7 @@ export default function Products(props: ProductProps) {
   const [modalProps, setModalProps] = useState<ProductModalProps>({
     show: false,
     defaultProduct: {
-      job: -1,
+      job: props.job || -1,
       delivery: false,
       name: "",
       type: "Item",
@@ -19,15 +19,19 @@ export default function Products(props: ProductProps) {
     }
   });
 
-  const handleUpdateList = useCallback(async() => {
+  const handleUpdateList = useCallback(async () => {
     if (isAdm && props.job === undefined) {
-      let res = await connection.get('products');
-      let a = [ ...res.data ] as Product[];
-      console.log(a);
-      setProducts([ ...a ]);
+      await connection.get('products')
+        .then((res) => {
+          setProducts(res.data);
+        })
+        .catch(() => { });
     } else if (props.job !== undefined) {
-      let res = await connection.get(`products?job=${props.job}`);
-      setProducts(res.data as Product[]);
+      await connection.get(`products?job=${props.job}`)
+        .then(async(res) => {
+          setProducts(res.data);
+        })
+        .catch(() => { });
     }
   }, [isAdm, props.job]);
 
@@ -42,14 +46,6 @@ export default function Products(props: ProductProps) {
     });
   };
 
-  async function selectJobById(id: number) {
-    return await connection.get(`jobs?id=${id}`).then((res) => {
-      return res.data as Job;
-    }).catch(() => {
-      return undefined;
-    });
-  };
-
   async function deleteProduct(p: Product) {
     await connection.delete(`products/delete?id=${p.id}`)
       .then(() => {
@@ -61,7 +57,7 @@ export default function Products(props: ProductProps) {
   function handleShowModal() {
     setModalProps({
       defaultProduct: {
-        job: props.job || -1,
+        job: -1,
         delivery: false,
         name: "",
         type: "Item",
@@ -89,9 +85,7 @@ export default function Products(props: ProductProps) {
           <Button onClick={handleShowModal} variant="danger">Adicionar novo produto</Button>
         </ListGroup.Item>
         {
-          products.map(async(p, i) => {
-            let job = await selectJobById(p.job);
-
+          products.map((p, i) => {
             return (
               <ListGroup.Item key={`products-${i}`}>
                 <div>
@@ -112,18 +106,18 @@ export default function Products(props: ProductProps) {
                         ${p.name}
                       `.replace(" ", "%20");
 
-                      let jobUser = await connection.get(`users?id=${job?.user}`);
+                      let jobUser = await connection.get(`users?id=${p.user}`);
 
                       window.open(`https://api.whatsapp.com/send?phone=${jobUser?.data.phone}&text=${text}`, "_blank")
                     }}>Solicitar</Button>
                   </ButtonGroup>
                   <ButtonGroup>
-                  { job?.user === user?.id && <Button variant="secondary" onClick={() => {
+                  { p.user !== undefined && p.user === user?.id && <Button variant="secondary" onClick={() => {
                       callEditModal(p)
                   }} >Editar</Button> }
                   </ButtonGroup>
-                  { (isAdm || job?.user === user?.id) && <ButtonGroup>
-                    <Button variant="danger" onClick={() => deleteProduct(p)}>Excluir</Button>
+                  { (isAdm || (p.user !== undefined && p.user === user?.id)) && <ButtonGroup>
+                    <Button variant="danger" onClick={() => deleteProduct(p)} >Excluir</Button>
                   </ButtonGroup> }
                 </ButtonToolbar>
               </ListGroup.Item>

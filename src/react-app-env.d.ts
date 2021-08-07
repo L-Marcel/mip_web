@@ -59,6 +59,7 @@ declare type Item = {
   price: number,
   delivery: boolean,
   unit: number,
+  user?: number,
 }
 
 declare type Service = {
@@ -68,6 +69,7 @@ declare type Service = {
   name: string,
   description?: string,
   price: number,
+  user?: number,
 }
 
 declare type AppContextType = {
