@@ -3,43 +3,47 @@ import connection from '../../services/connection';
 import ProductModal from './Modal';
 import { Button, ListGroup, Container, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import { useUser } from '../../hooks/useUser';
+import { useLocation } from 'react-router-dom';
 
 export default function Products(props: ProductProps) {
+  let job = useLocation().state as Job | undefined;
+
   const { user, isAdm } = useUser();
   const [products, setProducts] = useState<Product[]>([]);
   const [modalProps, setModalProps] = useState<ProductModalProps>({
     show: false,
     defaultProduct: {
-      job: props.job || -1,
+      job: job?.id || -1,
       delivery: false,
       name: "",
       type: "Item",
       price: 0,
       unit: 1,
-    }
+    },
   });
 
   const handleUpdateList = useCallback(async () => {
-    if (isAdm && props.job === undefined) {
+    if (isAdm && job === undefined) {
       await connection.get('products')
         .then((res) => {
           setProducts(res.data);
         })
         .catch(() => { });
-    } else if (props.job !== undefined) {
-      await connection.get(`products?job=${props.job}`)
+    } else if (job !== undefined) {
+      await connection.get(`products?job=${job.id}`)
         .then(async(res) => {
           setProducts(res.data);
         })
         .catch(() => { });
     }
-  }, [isAdm, props.job]);
+  }, [isAdm, job]);
 
   useEffect(() => {
     handleUpdateList();;
   }, [handleUpdateList]);
 
   async function callEditModal(p: Product) {
+    console.log(p);
     setModalProps({
       defaultProduct: p,
       show: true,
@@ -57,7 +61,7 @@ export default function Products(props: ProductProps) {
   function handleShowModal() {
     setModalProps({
       defaultProduct: {
-        job: -1,
+        job: job?.id || -1,
         delivery: false,
         name: "",
         type: "Item",
@@ -112,12 +116,12 @@ export default function Products(props: ProductProps) {
                     }}>Solicitar</Button>
                   </ButtonGroup>
                   <ButtonGroup>
-                  { p.user !== undefined && p.user === user?.id && <Button variant="secondary" onClick={() => {
-                      callEditModal(p)
+                  { p.user !== undefined && p.user === user?.id && <Button variant="secondary" style={{ marginRight: 8 }} onClick={() => {
+                      callEditModal({ ...p, job: job?.id || -1 });
                   }} >Editar</Button> }
                   </ButtonGroup>
                   { (isAdm || (p.user !== undefined && p.user === user?.id)) && <ButtonGroup>
-                    <Button variant="danger" onClick={() => deleteProduct(p)} >Excluir</Button>
+                    <Button variant="danger" onClick={() => deleteProduct({ ...p, job: job?.id || -1 })} >Excluir</Button>
                   </ButtonGroup> }
                 </ButtonToolbar>
               </ListGroup.Item>
@@ -135,9 +139,9 @@ export default function Products(props: ProductProps) {
         onClose={handleHideModal}
         onFinish={async (p) => {
           if (p.id === undefined) {
-            await connection.post('/products/create', p).then(() => { }).catch(() => { });
+            await connection.post('/products/create', { ...p, user: undefined }).then(() => { }).catch(() => { });
           } else {
-            await connection.post('/products/update', p).then(() => { }).catch(() => { });
+            await connection.post('/products/update', { ...p, user: undefined }).then(() => { }).catch(() => { });
           }
           handleUpdateList();
         }}

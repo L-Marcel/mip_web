@@ -68,9 +68,9 @@ export default function JobPageInfo() {
                     <ListGroup.Item>
                         <p><b>Proprietario: </b>{user.name} - {user.phone} </p>
                     </ListGroup.Item>
-                    <ListGroup.Item>
+                    { job.description && <ListGroup.Item>
                         <p>{job.description}</p>
-                    </ListGroup.Item>
+                    </ListGroup.Item> }
                     <Products withinContainer title={"Produtos"}/>
                 </ListGroup>
             </Container>

@@ -4,12 +4,13 @@ import { Modal, Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
 
 export default function ProductModal(props: ProductModalProps) {
     const [product, setProduct] = useState<Product>({
-        job: -1,
+        job: props.defaultProduct.job,
         delivery: false,
         name: "",
         type: "Item",
         price: 0,
         unit: 1,
+        description: "",
     });
 
     useEffect(() => {

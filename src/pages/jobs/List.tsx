@@ -27,6 +27,22 @@ export default function JobsListPage() {
     }, [user, isAdm]);
 
     useEffect(() => {
+        if (!isAdm) {
+            connection.get(`jobs?user=${user?.id}`)
+                .then((res) => {
+                    setJobs(res.data);
+                })
+                .catch(() => { });
+        } else {
+            connection.get(`jobs`)
+                .then((res) => {
+                    setJobs(res.data);
+                })
+                .catch(() => { });
+        }
+    }, [user, isAdm]);
+
+    useEffect(() => {
         handleUpdateList();
     }, [handleUpdateList]);
 

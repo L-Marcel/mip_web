@@ -11,7 +11,6 @@ declare interface MapProps {
 }
 
 declare interface ProductProps {
-  job?: number,
   title?: string,
   withinContainer?: boolean,
 }
