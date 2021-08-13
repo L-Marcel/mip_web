@@ -223,8 +223,8 @@ p {
 }
 
 .form-group {
-    display: flex;
-    flex-wrap: wrap;
+    display: block;
+
 }
 
 .form-group label {

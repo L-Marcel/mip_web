@@ -85,9 +85,12 @@ export default function Products(props: ProductProps) {
         { props.title && <ListGroup.Item>
           <h1 className="job-info-title">{props.title}</h1>
         </ListGroup.Item> }
-        <ListGroup.Item key={`products-add`}>
+        { products.length <= 0 && <ListGroup.Item>
+          <p>Nenhum produto registrado</p>
+        </ListGroup.Item> }
+        { props.withinContainer && <ListGroup.Item key={`products-add`}>
           <Button onClick={handleShowModal} variant="danger">Adicionar novo produto</Button>
-        </ListGroup.Item>
+        </ListGroup.Item> }
         {
           products.map((p, i) => {
             return (
@@ -139,9 +142,13 @@ export default function Products(props: ProductProps) {
         onClose={handleHideModal}
         onFinish={async (p) => {
           if (p.id === undefined) {
-            await connection.post('/products/create', { ...p, user: undefined }).then(() => { }).catch(() => { });
+            await connection.post('/products/create', { 
+              ...p, user: undefined 
+            }).then(() => { }).catch(() => { });
           } else {
-            await connection.post('/products/update', { ...p, user: undefined }).then(() => { }).catch(() => { });
+            await connection.post('/products/update', { 
+              ...p, user: undefined
+            }).then(() => { }).catch(() => { });
           }
           handleUpdateList();
         }}

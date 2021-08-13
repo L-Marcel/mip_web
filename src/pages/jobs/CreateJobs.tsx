@@ -11,6 +11,7 @@ import { useUser } from "../../hooks/useUser";
 
 export default function RegisterJobPage() {
     const { user, isAdm } = useUser();
+    const [validations, setValidations] = useState<ValidationDetail[]>([]);
     const [users, setUsers] = useState<User[]>(user !== undefined ? [user] : []);
     const history = useHistory();
     const dimensions = useDimensions();
@@ -33,6 +34,31 @@ export default function RegisterJobPage() {
 
     const menuRef = useRef<HTMLDivElement>(null);
     const pageRef = useRef<HTMLDivElement>(null);
+
+    function returnValidation(target: string) {
+        for (let i in validations) {
+            if (validations[i].message.includes(target)) {
+                return {
+                    message: validations[i].message.split("|")[1],
+                    value: false
+                };
+            };
+        };
+
+        return {
+            message: "",
+            value: true
+        };
+    };
+
+    useEffect(() => {
+        setTimeout(() => {
+            connection.post(`jobs/${job.id !== undefined ? 'update' : 'create'}/check`, job)
+                .then((res) => {
+                    setValidations(res.data);
+                }).catch(() => { });
+        }, 500);
+    }, [job]);
 
     useEffect(() => {
         if (menuRef.current && pageRef.current) {
@@ -77,20 +103,25 @@ export default function RegisterJobPage() {
                             type="text"
                             onChange={changeJob}
                             placeholder="Informe o nome"
+                            isInvalid={!returnValidation("name").value}
                         />
+                        <Form.Control.Feedback type="invalid">{returnValidation("name").message}</Form.Control.Feedback>
                     </Form.Group>
                     {isAdm && job?.user !== undefined && <Form.Group as={Col}>
                         <Form.Label>Usuário</Form.Label>
                         <Form.Control
                             value={job?.user}
                             as="select" name="user"
-                            onChange={changeJob}>
+                            onChange={changeJob}
+                            isInvalid={!returnValidation("user").value}
+                        >
                             {users.map((u, i) => {
                                 return (
                                     <option key={`user-id-option-${i}`} value={u?.id}>{u.name}</option>
                                 );
                             })}
                         </Form.Control>
+                        <Form.Control.Feedback type="invalid">{returnValidation("user").message}</Form.Control.Feedback>
                     </Form.Group>}
                 </Row>
                 <Row className="mb-3 wrap-group">
@@ -102,14 +133,19 @@ export default function RegisterJobPage() {
                             name="CNPJ"
                             value={job?.CNPJ}
                             onChange={changeJob}
-                            placeholder="Informe o CNPJ ou CPF" />
+                            placeholder="Informe o CNPJ caso tenha"
+                            isInvalid={!returnValidation("CNPJ").value}
+                        />
+                        <Form.Control.Feedback type="invalid">{returnValidation("CNPJ").message}</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group as={Col}>
                         <Form.Label>Classificação</Form.Label>
                         <Form.Control
                             value={job?.icon}
                             as="select" name="icon"
-                            onChange={changeJob}>
+                            onChange={changeJob}
+                            isInvalid={!returnValidation("icon").value}
+                        >
                             {enumToStringArray(MarkerIcon).map((m, i) => {
                                 const array = m.split(":");
                                 return (
@@ -117,12 +153,16 @@ export default function RegisterJobPage() {
                                 );
                             })}
                         </Form.Control>
+                        <Form.Control.Feedback type="invalid">{returnValidation("icon").message}</Form.Control.Feedback>
                     </Form.Group>
                 </Row>
                 <Row className="mb-3 wrap-group">
                     <Form.Group>
                         <Form.Label>Descrição</Form.Label>
-                        <Form.Control value={job?.description} name="description" as="textarea" onChange={changeJob} />
+                        <Form.Control value={job?.description} name="description" as="textarea" onChange={changeJob}
+                            isInvalid={!returnValidation("description").value}
+                        />
+                        <Form.Control.Feedback type="invalid">{returnValidation("description").message}</Form.Control.Feedback>
                     </Form.Group>
                 </Row>
                 <ButtonToolbar>

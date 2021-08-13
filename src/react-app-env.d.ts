@@ -1,5 +1,16 @@
 /// <reference types="react-scripts" />
 declare module "leaflet.awesome-markers/dist/leaflet.awesome-markers";
+declare interface ValidationDetail {
+  message: string,
+  path: string[],
+  type: string,
+  context: {
+    label: string,
+    value: any,
+    key: string
+  }
+}
+
 declare interface JobRegisterMapProps extends MapProps {
   job: Job,
   onChangeLatLng: (position: LatLngExpression) => void,
