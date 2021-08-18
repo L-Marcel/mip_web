@@ -49,7 +49,7 @@ export default function RegisterPage(props: UserModalProps) {
   };
   useEffect(() => {
     setTimeout(() => {
-      connection.post(`users/${user.id !== undefined ? 'update' : 'create'}/check`, user)
+      connection.post(`users/create/check`, user)
         .then((res) => {
           setValidations(res.data);
         }).catch(() => { });
