@@ -5,6 +5,7 @@ import connection from '../services/connection';
 
 export default function RegisterPage(props: UserModalProps) {
   const history = useHistory();
+  const [validations, setValidations] = useState<ValidationDetail[]>([]);
   const [alert, setAlert] = useState(false);
   const [user, setUser] = useState<User>({
     name: "",
@@ -31,6 +32,30 @@ export default function RegisterPage(props: UserModalProps) {
       setAlert(true);
     });
   };
+  function returnValidation(target: string) {
+    for (let i in validations) {
+      if (validations[i].message.includes(target)) {
+        return {
+          message: validations[i].message.split("|")[1],
+          value: false
+        };
+      };
+    };
+
+    return {
+      message: "",
+      value: true
+    };
+  };
+  useEffect(() => {
+    setTimeout(() => {
+      connection.post(`users/${user.id !== undefined ? 'update' : 'create'}/check`, user)
+        .then((res) => {
+          setValidations(res.data);
+        }).catch(() => { });
+    }, 500);
+  }, [user]);
+
 
   return (
     <Container fluid className="page center">
@@ -49,7 +74,10 @@ export default function RegisterPage(props: UserModalProps) {
                   name="name"
                   value={user?.name}
                   placeholder="Informe seu nome"
-                  onChange={changeUser} />
+                  onChange={changeUser}
+                  isInvalid={!returnValidation("name").value}
+                />
+                <Form.Control.Feedback type="invalid">{returnValidation("name").message}</Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="mb-3" controlId="phone">
                 <Form.Label>Telefone</Form.Label>
@@ -58,7 +86,10 @@ export default function RegisterPage(props: UserModalProps) {
                   name="phone"
                   value={user?.phone}
                   placeholder="Informe seu telefone"
-                  onChange={changeUser} />
+                  onChange={changeUser}
+                  isInvalid={!returnValidation("phone").value}
+                />
+                <Form.Control.Feedback type="invalid">{returnValidation("phone").message}</Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="mb-3" controlId="email">
                 <Form.Label>E-mail</Form.Label>
@@ -68,7 +99,9 @@ export default function RegisterPage(props: UserModalProps) {
                   autoComplete="off"
                   value={user?.email}
                   placeholder="Informe seu e-mail"
-                  onChange={changeUser} />
+                  onChange={changeUser} isInvalid={!returnValidation("email").value}
+                />
+                <Form.Control.Feedback type="invalid">{returnValidation("email").message}</Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="mb-3" controlId="password">
                 <Form.Label>Senha</Form.Label>
@@ -78,7 +111,9 @@ export default function RegisterPage(props: UserModalProps) {
                   autoComplete="off"
                   value={user?.password}
                   placeholder="Informe sua senha"
-                  onChange={changeUser} />
+                  onChange={changeUser} isInvalid={!returnValidation("password").value}
+                />
+                <Form.Control.Feedback type="invalid">{returnValidation("password").message}</Form.Control.Feedback>
                 <Form.Text className="text-muted">
                   Atenção! Não compartilhe sua senha!
                 </Form.Text>
