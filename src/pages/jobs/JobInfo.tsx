@@ -6,6 +6,7 @@ import { Menu } from "../components/Menu";
 import { Container, ListGroup, ButtonGroup, Button } from "react-bootstrap";
 import Products from "../product/Products";
 import connection from "../../services/connection";
+import { cnpj } from 'cpf-cnpj-validator';
 
 export default function JobPageInfo() {
     const history = useHistory();
@@ -60,7 +61,7 @@ export default function JobPageInfo() {
                         </ButtonGroup>
                     </ListGroup.Item>
                     { job.CNPJ && <ListGroup.Item>
-                        <p><b>CNPJ/CPf: </b>{job.CNPJ}</p>
+                        <p><b>CNPJ: </b>{cnpj.format(job.CNPJ)}</p>
                     </ListGroup.Item> }
                     <ListGroup.Item>
                         <p><b>Tipo de trabalho: </b>{t}</p>

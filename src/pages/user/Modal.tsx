@@ -112,7 +112,7 @@ export default function UserModal(props: UserModalProps) {
                                 <Form.Control.Feedback type="invalid">{returnValidation("phone").message}</Form.Control.Feedback>
                             </Form.Group>
                         </Row>
-                        {user.id !== undefined && <Form.Group className="mb-3">
+                        {user.id !== undefined && <Form.Group>
                             <Form.Check type="checkbox" checked={altSenha} label="Alterar senha" onChange={e => setAltSenha(e.currentTarget.checked)} />
                         </Form.Group>}
                         {
@@ -121,7 +121,7 @@ export default function UserModal(props: UserModalProps) {
                                 <Form.Label>Senha</Form.Label>
                                 <Form.Control
                                     required
-                                    type="text"
+                                    type="password"
                                     name="password"
                                     autoComplete="off"
                                     value={user.password}
@@ -141,13 +141,15 @@ export default function UserModal(props: UserModalProps) {
                     <Button variant="secondary" onClick={props.onClose}>
                         Fechar
                     </Button>
-                    <Button variant="danger" onClick={() => {
-                        if (props.onFinish && props.onClose) {
-                            props.onFinish(user);
-                            props.onClose();
-                        }
-                    }
-                    }>Enviar</Button>
+                    <Button variant="danger" 
+                        onClick={() => {
+                            if (props.onFinish && props.onClose && validations.length <= 0) {
+                                props.onFinish(user);
+                                props.onClose();
+                            }
+                        }}
+                        disabled={validations.length > 0}
+                    >Enviar</Button>
                 </Modal.Footer>
             </Modal >
         </>

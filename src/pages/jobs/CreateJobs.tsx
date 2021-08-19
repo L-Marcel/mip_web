@@ -53,7 +53,9 @@ export default function RegisterJobPage() {
 
     useEffect(() => {
         setTimeout(() => {
-            connection.post(`jobs/${job.id !== undefined ? 'update' : 'create'}/check`, job)
+            connection.post(`jobs/${job.id !== undefined ? 'update' : 'create'}/check`,
+                { ...job, user: job.id !== undefined ? job?.user:user?.id }
+            )
                 .then((res) => {
                     setValidations(res.data);
                 }).catch(() => { });
@@ -126,7 +128,7 @@ export default function RegisterJobPage() {
                 </Row>
                 <Row className="mb-3 wrap-group">
                     <Form.Group as={Col}>
-                        <Form.Label>CNPJ/CPF</Form.Label>
+                        <Form.Label>CNPJ</Form.Label>
                         <Form.Control
                             required
                             type="text"
@@ -172,14 +174,19 @@ export default function RegisterJobPage() {
                         </Button>
                     </ButtonGroup>
                     <ButtonGroup>
-                        <Button variant="danger" onClick={() => {
-                            if (job?.id === undefined) {
-                                connection.post('/jobs/create', { ...job, user: user?.id }).then(() => { }).catch(() => { });
-                            } else {
-                                connection.post('/jobs/update', { ...job, user: job?.user }).then(() => { }).catch(() => { });
-                            }
-                            history.push(isAdm? '/adm/jobs':'/jobs');
-                        }}>Enviar</Button>
+                        <Button variant="danger"
+                            onClick={() => {
+                                if (validations.length <= 0) {
+                                    if (job?.id === undefined) {
+                                        connection.post('/jobs/create', { ...job, user: user?.id }).then(() => { }).catch(() => { });
+                                    } else {
+                                        connection.post('/jobs/update', { ...job, user: job?.user }).then(() => { }).catch(() => { });
+                                    };
+                                    history.push(isAdm ? '/adm/jobs' : '/jobs');
+                                };
+                            }}
+                            disabled={validations.length > 0}
+                        >Enviar</Button>
                     </ButtonGroup>
                 </ButtonToolbar>
             </Form>

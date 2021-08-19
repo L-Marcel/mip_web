@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Menu } from "../components/Menu";
 import UserAltModal from "./Modal";
-import { Button, ListGroup, Container, ButtonGroup, ButtonToolbar, Form, ListGroupItem } from 'react-bootstrap';
+import { Button, ListGroup, Container, ButtonGroup, ButtonToolbar, Form } from 'react-bootstrap';
 import connection from "../../services/connection";
 
 export default function UserListPage() {
@@ -109,8 +109,14 @@ export default function UserListPage() {
             />
             <Container fluid className="page-with-menu">
                 <ListGroup>
-                    <ListGroup.Item style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        <div onDoubleClick={(e) => e.stopPropagation()}>
+                    <ListGroup.Item style={{ 
+                        display: "flex", 
+                        justifyContent: "space-between", 
+                        alignItems: "center", 
+                        flexWrap: "wrap",
+                        paddingBottom: 0,
+                    }}>
+                        <div onDoubleClick={(e) => e.stopPropagation()} style={{ marginBottom: ".5rem" }}>
                             <Form.Control
                                 type="text"
                                 name="search"
@@ -120,7 +126,7 @@ export default function UserListPage() {
                             />
                         </div>
 
-                        <ButtonGroup key={`products-add`} >
+                        <ButtonGroup key={`products-add`} style={{ marginBottom: ".5rem" }}>
                             <Button onClick={handleShowModal} variant="danger">Adicionar novo usuário</Button>
                         </ButtonGroup>
 
@@ -137,10 +143,10 @@ export default function UserListPage() {
 
                                     <ButtonToolbar>
                                         <ButtonGroup className="me-2">
-                                            <Button variant="secondary" onClick={() => callEditModal(u)} >Editar</Button>
+                                            <Button variant="secondary" onClick={() => callEditModal(u)}>Editar</Button>
                                         </ButtonGroup>
                                         {u.id !== undefined && u.id > 1 && <ButtonGroup>
-                                            <Button variant="danger" onClick={() => deleteUser(u)} >Excluir</Button>
+                                            <Button variant="danger" onClick={() => deleteUser(u)}>Excluir</Button>
                                         </ButtonGroup>}
                                     </ButtonToolbar>
                                 </ListGroup.Item>

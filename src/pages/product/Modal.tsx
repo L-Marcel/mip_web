@@ -51,7 +51,9 @@ export default function ProductModal(props: ProductModalProps) {
 
     useEffect(() => {
         setTimeout(() => {
-            connection.post(`products/${product.id !== undefined ? 'update' : 'create'}/check`, product)
+            connection.post(`products/${product.id !== undefined ? 'update' : 'create'}/check`, 
+                { ...product, user: undefined }
+            )
                 .then((res) => {
                     setValidations(res.data);
                 }).catch(() => { });
@@ -168,12 +170,15 @@ export default function ProductModal(props: ProductModalProps) {
                 <Button variant="secondary" onClick={props.onClose}>
                     Fechar
                 </Button>
-                <Button variant="danger" onClick={() => {
-                    if (props.onFinish && props.onClose) {
-                        props.onFinish(product)
-                        props.onClose();
-                    }
-                }}>Enviar</Button>
+                <Button variant="danger" 
+                    onClick={() => {
+                        if (props.onFinish && props.onClose && validations.length <= 0) {
+                            props.onFinish(product)
+                            props.onClose();
+                        }
+                    }}
+                    disabled={validations.length > 0}
+                >Enviar</Button>
             </Modal.Footer>
         </Modal >
     );

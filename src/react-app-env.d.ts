@@ -1,5 +1,6 @@
 /// <reference types="react-scripts" />
 declare module "leaflet.awesome-markers/dist/leaflet.awesome-markers";
+declare module "cpf-cnpj-validator";
 declare interface ValidationDetail {
   message: string,
   path: string[],

@@ -32,6 +32,7 @@ export default function RegisterPage(props: UserModalProps) {
       setAlert(true);
     });
   };
+  
   function returnValidation(target: string) {
     for (let i in validations) {
       if (validations[i].message.includes(target)) {
@@ -47,6 +48,7 @@ export default function RegisterPage(props: UserModalProps) {
       value: true
     };
   };
+
   useEffect(() => {
     setTimeout(() => {
       connection.post(`users/create/check`, user)
@@ -55,7 +57,6 @@ export default function RegisterPage(props: UserModalProps) {
         }).catch(() => { });
     }, 500);
   }, [user]);
-
 
   return (
     <Container fluid className="page center">
@@ -127,7 +128,12 @@ export default function RegisterPage(props: UserModalProps) {
                 </ButtonGroup>
                 <ButtonGroup>
                   <Button variant="danger" type="submit"
-                    onClick={create}
+                    onClick={() => { 
+                      if(validations.length <= 0){
+                        create();
+                      }
+                    }}
+                    disabled={validations.length > 0}
                   >Cadastrar</Button>
                 </ButtonGroup>
               </ButtonToolbar>

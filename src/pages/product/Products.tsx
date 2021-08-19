@@ -88,7 +88,7 @@ export default function Products(props: ProductProps) {
         { products.length <= 0 && <ListGroup.Item>
           <p>Nenhum produto registrado</p>
         </ListGroup.Item> }
-        { props.withinContainer && <ListGroup.Item key={`products-add`}>
+        { props.withinContainer && job !== undefined && job.user === user?.id  && <ListGroup.Item key={`products-add`}>
           <Button onClick={handleShowModal} variant="danger">Adicionar novo produto</Button>
         </ListGroup.Item> }
         {
