@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Container, ListGroup, Button, ButtonToolbar, ButtonGroup } from 'react-bootstrap';
+import React, { useEffect, useState, useCallback, ChangeEvent } from 'react';
+import { Container, ListGroup, Button, ButtonToolbar, ButtonGroup, Form } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { useUser } from '../../hooks/useUser';
 import connection from '../../services/connection';
@@ -8,6 +8,8 @@ import { Menu } from '../components/Menu';
 export default function JobsListPage() {
     const { user, isAdm } = useUser();
     const history = useHistory();
+    const [jobsResult, setJobsResult] = useState<Job[]>([]);
+    const [search, setSearch] = useState<string>("");
     const [jobs, setJobs] = useState<Job[]>([]);
 
     const handleUpdateList = useCallback(async () => {
@@ -37,6 +39,7 @@ export default function JobsListPage() {
             connection.get(`jobs`)
                 .then((res) => {
                     setJobs(res.data);
+                    setJobsResult(res.data);
                 })
                 .catch(() => { });
         }
@@ -54,18 +57,41 @@ export default function JobsListPage() {
             .catch(() => { });
     };
 
+
+
+
+    useEffect(() => {
+        let _jobs = [...jobs].filter((j, i) => {
+            if (j.name.includes(search)) {
+                return true;
+            }
+            return false;
+        });
+        setJobsResult([..._jobs]);
+    }, [jobs, search]);
+
+
     return (
         <div>
             <Menu />
             <Container fluid className="page-with-menu">
                 <ListGroup>
-                    <ListGroup.Item key={`jobs-add`}>
-                        <Button variant="danger" onClick={() => {
+                    <ListGroup.Item style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div onDoubleClick={(e) => e.stopPropagation()}>
+                            <Form.Control
+                                type="text"
+                                name="search"
+                                value={search}
+                                placeholder="Pesquisar pelo nome"
+                                onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.currentTarget.value)}
+                            />
+                        </div>
+                        <Button key={`jobs-add`} variant="danger" onClick={() => {
                             history.push('/jobs/register');
                         }}>Adicionar novo trabalho</Button>
                     </ListGroup.Item>
                     {
-                        jobs.map((j, i) => {
+                        jobsResult.map((j, i) => {
                             let t = j.icon.split(":")[2];
                             return (
                                 <ListGroup.Item key={`jobs-${i}`}>

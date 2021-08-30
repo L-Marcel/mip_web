@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import connection from '../../services/connection';
 import ProductModal from './Modal';
-import { Button, ListGroup, Container, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
+import { Button, ListGroup, Container, ButtonGroup, ButtonToolbar, Form } from 'react-bootstrap';
 import { useUser } from '../../hooks/useUser';
 import { useLocation } from 'react-router-dom';
 
@@ -10,6 +10,9 @@ export default function Products(props: ProductProps) {
 
   const { user, isAdm } = useUser();
   const [products, setProducts] = useState<Product[]>([]);
+  const [productsResult, setProductsResult] = useState<Product[]>([]);
+  const [search, setSearch] = useState<string>("");
+  const [propriet, setPropriet] = useState<boolean>(false);
   const [modalProps, setModalProps] = useState<ProductModalProps>({
     show: false,
     defaultProduct: {
@@ -27,11 +30,12 @@ export default function Products(props: ProductProps) {
       await connection.get('products')
         .then((res) => {
           setProducts(res.data);
+          setProductsResult(res.data);
         })
         .catch(() => { });
     } else if (job !== undefined) {
       await connection.get(`products?job=${job.id}`)
-        .then(async(res) => {
+        .then(async (res) => {
           setProducts(res.data);
         })
         .catch(() => { });
@@ -78,21 +82,52 @@ export default function Products(props: ProductProps) {
       show: false,
     });
   };
+  useEffect(() => {
+    let _products = [...products].filter((p, i) => {
+      if (p.name.includes(search)) {
+        return true;
+      }
+      return false;
+    });
+    setProductsResult([..._products]);
+  }, [products, search]);
+  useEffect(() => {
+    if (job?.user == user?.id) {
+      setPropriet(true);
+    }
+  }, [productsResult, products])
+
 
   const ListInfo = () => {
     return (
       <>
-        { props.title && <ListGroup.Item>
+        {props.title && <ListGroup.Item>
           <h1 className="job-info-title">{props.title}</h1>
-        </ListGroup.Item> }
-        { products.length <= 0 && <ListGroup.Item>
+        </ListGroup.Item>}
+        <ListGroup.Item style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+
+          {products.length > 0 &&
+
+            <div onDoubleClick={(e) => e.stopPropagation()}>
+              <Form.Control
+                type="text"
+                name="search"
+                value={search}
+                placeholder="Pesquisar pelo nome"
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.currentTarget.value)}
+              />
+            </div>}
+          {props.withinContainer && job !== undefined && propriet === true &&
+            <Button key={`products-add`} onClick={handleShowModal} variant="danger">Adicionar novo produto</Button>
+          }
+
+        </ListGroup.Item>
+        {products.length <= 0 && <ListGroup.Item>
           <p>Nenhum produto registrado</p>
-        </ListGroup.Item> }
-        { props.withinContainer && job !== undefined && job.user === user?.id  && <ListGroup.Item key={`products-add`}>
-          <Button onClick={handleShowModal} variant="danger">Adicionar novo produto</Button>
-        </ListGroup.Item> }
+        </ListGroup.Item>}
+
         {
-          products.map((p, i) => {
+          productsResult.map((p, i) => {
             return (
               <ListGroup.Item key={`products-${i}`}>
                 <div>
@@ -102,7 +137,7 @@ export default function Products(props: ProductProps) {
 
                 <ButtonToolbar>
                   <ButtonGroup className="me-2">
-                    <Button variant="success" onClick={async() => {
+                    <Button variant="success" onClick={async () => {
                       let u = user as User;
                       let name = u.name.includes(" ") ? u.name.split(" ") : u.name;
                       if (typeof name !== "string") {
@@ -119,13 +154,13 @@ export default function Products(props: ProductProps) {
                     }}>Solicitar</Button>
                   </ButtonGroup>
                   <ButtonGroup>
-                  { p.user !== undefined && p.user === user?.id && <Button variant="secondary" style={{ marginRight: 8 }} onClick={() => {
+                    {p.user !== undefined && p.user === user?.id && <Button variant="secondary" style={{ marginRight: 8 }} onClick={() => {
                       callEditModal({ ...p, job: job?.id || -1 });
-                  }} >Editar</Button> }
+                    }} >Editar</Button>}
                   </ButtonGroup>
-                  { (isAdm || (p.user !== undefined && p.user === user?.id)) && <ButtonGroup>
+                  {(isAdm || (p.user !== undefined && p.user === user?.id)) && <ButtonGroup>
                     <Button variant="danger" onClick={() => deleteProduct({ ...p, job: job?.id || -1 })} >Excluir</Button>
-                  </ButtonGroup> }
+                  </ButtonGroup>}
                 </ButtonToolbar>
               </ListGroup.Item>
             );
@@ -142,22 +177,22 @@ export default function Products(props: ProductProps) {
         onClose={handleHideModal}
         onFinish={async (p) => {
           if (p.id === undefined) {
-            await connection.post('/products/create', { 
-              ...p, user: undefined 
+            await connection.post('/products/create', {
+              ...p, user: undefined
             }).then(() => { }).catch(() => { });
           } else {
-            await connection.post('/products/update', { 
+            await connection.post('/products/update', {
               ...p, user: undefined
             }).then(() => { }).catch(() => { });
           }
           handleUpdateList();
         }}
       />
-      { props.withinContainer? <ListInfo/>:<Container fluid className="page-with-menu">
+      {props.withinContainer ? <ListInfo /> : <Container fluid className="page-with-menu">
         <ListGroup>
-          <ListInfo/>
+          <ListInfo />
         </ListGroup>
-      </Container> }
+      </Container>}
     </>
   );
 };
