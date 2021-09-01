@@ -10,9 +10,6 @@ export default function Products(props: ProductProps) {
 
   const { user, isAdm } = useUser();
   const [products, setProducts] = useState<Product[]>([]);
-  const [productsResult, setProductsResult] = useState<Product[]>([]);
-  const [search, setSearch] = useState<string>("");
-  const [propriet, setPropriet] = useState<boolean>(false);
   const [modalProps, setModalProps] = useState<ProductModalProps>({
     show: false,
     defaultProduct: {
@@ -30,7 +27,6 @@ export default function Products(props: ProductProps) {
       await connection.get('products')
         .then((res) => {
           setProducts(res.data);
-          setProductsResult(res.data);
         })
         .catch(() => { });
     } else if (job !== undefined) {
@@ -82,23 +78,30 @@ export default function Products(props: ProductProps) {
       show: false,
     });
   };
-  useEffect(() => {
-    let _products = [...products].filter((p, i) => {
-      if (p.name.includes(search)) {
-        return true;
-      }
-      return false;
-    });
-    setProductsResult([..._products]);
-  }, [products, search]);
-  useEffect(() => {
-    if (job?.user == user?.id) {
-      setPropriet(true);
-    }
-  }, [productsResult, products])
+  
 
 
   const ListInfo = () => {
+    const [productsResult, setProductsResult] = useState<Product[]>([]);
+    const [search, setSearch] = useState<string>("");
+    const [propriet, setPropriet] = useState<boolean>(false);
+
+    useEffect(() => {
+      let _products = [...products].filter((p, i) => {
+        if (p.name.includes(search)) {
+          return true;
+        }
+        return false;
+      });
+      setProductsResult([..._products]);
+    }, [products, search]);
+  
+    useEffect(() => {
+      if (job?.user == user?.id) {
+        setPropriet(true);
+      }
+    }, [productsResult, products]);
+
     return (
       <>
         {props.title && <ListGroup.Item>
@@ -107,7 +110,6 @@ export default function Products(props: ProductProps) {
         <ListGroup.Item style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 
           {products.length > 0 &&
-
             <div onDoubleClick={(e) => e.stopPropagation()}>
               <Form.Control
                 type="text"
@@ -117,6 +119,7 @@ export default function Products(props: ProductProps) {
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.currentTarget.value)}
               />
             </div>}
+
           {props.withinContainer && job !== undefined && propriet === true &&
             <Button key={`products-add`} onClick={handleShowModal} variant="danger">Adicionar novo produto</Button>
           }

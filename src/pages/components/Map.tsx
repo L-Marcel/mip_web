@@ -110,7 +110,7 @@ export default function Map(props: MapProps) {
               {job.name} | {job.icon.split(":")[2]}
             </h3>
             {job.description && <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur magni porro, dolorem rem tempore illo a nihil quia consectetur reiciendis at eligendi qui ratione. Eos doloribus fugiat culpa corporis quos!
+              {job.description}
             </p>}
           </div>}
         </div>

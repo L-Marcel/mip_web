@@ -5,6 +5,10 @@
     padding: 0;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 /* ------------- ROOT ------------- */
 
 #root {
