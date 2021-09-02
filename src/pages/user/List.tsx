@@ -67,12 +67,12 @@ export default function UserListPage() {
             show: false,
         });
     };
+    
     useEffect(() => {
         connection.get('/users').then((res) => {
             setUsers(res.data);
             setUsersResult(res.data);
         }).catch(() => { });
-
     }, []);
 
     useEffect(() => {

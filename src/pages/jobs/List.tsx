@@ -76,8 +76,14 @@ export default function JobsListPage() {
             <Menu />
             <Container fluid className="page-with-menu">
                 <ListGroup>
-                    <ListGroup.Item style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        <div onDoubleClick={(e) => e.stopPropagation()}>
+                    <ListGroup.Item style={{ 
+                        display: "flex", 
+                        justifyContent: "space-between", 
+                        alignItems: "center", 
+                        flexWrap: "wrap",
+                        paddingBottom: 0,
+                    }}>
+                        <div onDoubleClick={(e) => e.stopPropagation()} style={{ marginBottom: ".5rem" }}>
                             <Form.Control
                                 type="text"
                                 name="search"
@@ -86,7 +92,7 @@ export default function JobsListPage() {
                                 onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.currentTarget.value)}
                             />
                         </div>
-                        <Button key={`jobs-add`} variant="danger" onClick={() => {
+                        <Button key={`jobs-add`} variant="danger" style={{ marginBottom: ".5rem" }} onClick={() => {
                             history.push('/jobs/register');
                         }}>Adicionar novo trabalho</Button>
                     </ListGroup.Item>
