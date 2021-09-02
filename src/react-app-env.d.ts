@@ -39,6 +39,19 @@ declare interface UserModalProps {
   onFinish?: (user: User) => void,
   onClose?: () => void,
 }
+declare interface AddressModalProps {
+  show: boolean,
+  isDelivery: boolean,
+  onFinish?: (address: Address) => void,
+  onClose?: () => void,
+}
+
+declare type Address = {
+  city: string,
+  district: string, //bairro
+  address: string,
+  complement: string,
+};
 
 
 declare type Credentials = {

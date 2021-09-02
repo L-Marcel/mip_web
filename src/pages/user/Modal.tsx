@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Form, Modal, Row, Button, InputGroup } from 'react-bootstrap';
+import { Form, Modal, Row, Button } from 'react-bootstrap';
 import connection from '../../services/connection';
 
 export default function UserModal(props: UserModalProps) {

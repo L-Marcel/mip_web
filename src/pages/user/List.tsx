@@ -71,7 +71,6 @@ export default function UserListPage() {
         connection.get('/users').then((res) => {
             setUsers(res.data);
             setUsersResult(res.data);
-            console.log("Entrou no users conecxao")
         }).catch(() => { });
 
     }, []);
@@ -80,12 +79,9 @@ export default function UserListPage() {
         let _users = [...users].filter((v, i) => {
             if (v.name.includes(search)) {
                 return true;
-                console.log("Retornou true");
             }
-            console.log("Retornou false");
             return false;
         });
-        console.log("Entrou no use effect");
 
         setUsersResult([..._users]);
     }, [users, search]);

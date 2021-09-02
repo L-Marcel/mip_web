@@ -60,7 +60,7 @@ export default function RegisterJobPage() {
                     setValidations(res.data);
                 }).catch(() => { });
         }, 500);
-    }, [job]);
+    }, [job, user?.id]);
 
     useEffect(() => {
         if (menuRef.current && pageRef.current) {
